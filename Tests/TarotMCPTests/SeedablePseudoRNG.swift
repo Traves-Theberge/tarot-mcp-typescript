@@ -14,4 +14,8 @@ struct SeedablePseudoRNG: RandomNumberGenerator {
     state = state &* 1664525 &+ 1013904223
     return state
   }
+  
+  var currentSeed: UInt64 {
+    return state
+  }
 }

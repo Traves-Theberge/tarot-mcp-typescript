@@ -24,7 +24,10 @@ let package = Package(
     ),
     .testTarget(
       name: "TarotMCPTests",
-      dependencies: ["TarotMCP"]
+      dependencies: ["TarotMCP"],
+      exclude: [
+        "TarotMCP.xctestplan",
+      ]
     )
   ]
 )

@@ -119,24 +119,6 @@ enum TarotCard {
 }
 
 class TarotDeck {
-//  static let fullDeck: [TarotCard] = {
-//    var deck: [TarotCard] = []
-//    
-//    // Add all Major Arcana cards
-//    for majorArcana in MajorArcana.allCases {
-//      deck.append(.major(majorArcana))
-//    }
-//    
-//    // Add all Minor Arcana cards
-//    for suit in MinorArcana.Suit.allCases {
-//      for value in MinorArcana.Value.allCases {
-//        let minorCard = MinorArcana(suit: suit, value: value)
-//        deck.append(.minor(minorCard))
-//      }
-//    }
-//    
-//    return deck
-//  }()
   static let fullDeck: [TarotCard] = {
     let majorArcana = MajorArcana.allCases
       .lazy
