@@ -7,7 +7,6 @@ import MCP
 @Suite("Tarot Server Handler Snapshot Tests")
 struct TarotServerHandlerSnapshotTests {
 
-  // swiftlint:disable function_body_length
   @Test(
     "get_full_deck tool produces deterministic results",
     .repeat(count: 100)
@@ -106,7 +105,6 @@ struct TarotServerHandlerSnapshotTests {
       """
     }
   }
-  // swiftlint:enable function_body_length
 
   @Test(
     "draw_multiple_cards tool produces deterministic results",
