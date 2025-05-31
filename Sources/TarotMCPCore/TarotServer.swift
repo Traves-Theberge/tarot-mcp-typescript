@@ -1,5 +1,4 @@
 import Foundation
-import Logging
 import MCP
 
 public struct TarotServer: Sendable {

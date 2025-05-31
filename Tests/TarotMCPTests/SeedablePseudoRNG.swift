@@ -15,7 +15,4 @@ struct SeedablePseudoRNG: RandomNumberGenerator {
     return state
   }
 
-  var currentSeed: UInt64 {
-    return state
-  }
 }
