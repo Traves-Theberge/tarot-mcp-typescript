@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
@@ -29,11 +29,17 @@ let package = Package(
       name: "TarotMCPCore",
       dependencies: [
         .product(name: "MCP", package: "swift-sdk")
+      ],
+      swiftSettings: [
+        .swiftLanguageMode(.v6),
       ]
     ),
     .executableTarget(
       name: "TarotMCP",
-      dependencies: ["TarotMCPCore"]
+      dependencies: ["TarotMCPCore"],
+      swiftSettings: [
+        .swiftLanguageMode(.v6),
+      ]
     ),
     .testTarget(
       name: "TarotMCPTests",
@@ -43,6 +49,9 @@ let package = Package(
       ],
       exclude: [
         "TarotMCP.xctestplan",
+      ],
+      swiftSettings: [
+        .swiftLanguageMode(.v6),
       ]
     )
   ]

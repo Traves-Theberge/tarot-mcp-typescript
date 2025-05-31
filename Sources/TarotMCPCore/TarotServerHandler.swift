@@ -8,8 +8,8 @@ private extension String {
 }
 
 /// Handles MCP tool calls for the Tarot server
-struct TarotServerHandler {
-  @TaskLocal static var rng: any RandomNumberGenerator = SystemRandomNumberGenerator()
+struct TarotServerHandler: Sendable {
+  @TaskLocal static var rng: any RandomNumberGenerator & Sendable = SystemRandomNumberGenerator()
 
   /// Handles a tool call and returns the appropriate result
   func handleToolCall(name: String, arguments: [String: Value]?) throws -> CallTool.Result {

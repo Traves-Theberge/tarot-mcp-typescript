@@ -23,7 +23,7 @@ struct RepeatTestTrait: TestTrait, TestScoping {
     performing function: @Sendable () async throws -> Void
   ) async throws {
     var errors = [any Error]()
-    for i in 0..<count {
+    for _ in 0..<count {
       do {
         try await function()
       } catch {

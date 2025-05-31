@@ -2,7 +2,7 @@ import Foundation
 import Logging
 import MCP
 
-public struct TarotServer {
+public struct TarotServer: Sendable {
   private let handler = TarotServerHandler()
 
   public init() {}
