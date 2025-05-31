@@ -11,8 +11,6 @@ private extension String {
 struct TarotServerHandler {
   @TaskLocal static var rng: any RandomNumberGenerator = SystemRandomNumberGenerator()
 
-  init() {}
-
   /// Handles a tool call and returns the appropriate result
   func handleToolCall(name: String, arguments: [String: Value]?) throws -> CallTool.Result {
     switch name {

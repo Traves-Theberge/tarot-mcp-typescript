@@ -164,7 +164,11 @@ enum TarotDeck {
   }()
 
   static func drawRandomCard(using rng: inout some RandomNumberGenerator) -> TarotCard {
-    return fullDeck.randomElement(using: &rng)!
+    guard let card = fullDeck.randomElement(using: &rng) else {
+      // This should never happen since fullDeck is guaranteed to have 78 cards
+      fatalError("TarotDeck.fullDeck is unexpectedly empty")
+    }
+    return card
   }
 
   static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {

@@ -10,15 +10,15 @@ public struct TarotServer {
   public func run() async throws {
     let server = createServer()
     await registerHandlers(on: server)
-    
+
     // Start the server with stdio transport
     let transport = StdioTransport()
     try await server.start(transport: transport)
     await server.waitUntilCompleted()
   }
-  
+
   // MARK: - Internal methods for testing
-  
+
   internal func createServer() -> Server {
     return Server(
       name: "Tarot MCP Server",
@@ -29,7 +29,7 @@ public struct TarotServer {
       configuration: .strict
     )
   }
-  
+
   internal func registerHandlers(on server: Server) async {
     // Register tools/list method
     await server.withMethodHandler(ListTools.self) { _ in
