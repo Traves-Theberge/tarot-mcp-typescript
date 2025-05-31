@@ -1,5 +1,5 @@
 import Foundation
-import MCP
+import TarotMCPCore
 
 let server = TarotServer()
 try await server.run()

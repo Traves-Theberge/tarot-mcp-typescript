@@ -1,0 +1,61 @@
+# SwiftLint Configuration
+
+# Paths to include/exclude
+included:
+  - Sources
+  - Tests
+
+excluded:
+  - .build
+  - .swiftpm
+
+# Enabled rules
+opt_in_rules:
+  - array_init
+  - closure_spacing
+  - empty_count
+  - explicit_init
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - overridden_super_call
+  - redundant_nil_coalescing
+  - sorted_first_last
+  - switch_case_alignment
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+
+# Disabled rules
+disabled_rules:
+  - todo
+  - line_length # We'll use a custom length
+
+# Custom rules configuration
+line_length:
+  warning: 120
+  error: 150
+
+function_body_length:
+  warning: 60
+  error: 100
+
+type_body_length:
+  warning: 200
+  error: 300
+
+identifier_name:
+  min_length:
+    warning: 1
+  max_length:
+    warning: 40
+    error: 50
+  excluded:
+    - id
+    - x
+    - y
+    - z
+
+# Severity levels
+force_cast: warning
+force_try: warning

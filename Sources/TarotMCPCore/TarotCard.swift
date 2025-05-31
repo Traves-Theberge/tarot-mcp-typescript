@@ -1,6 +1,17 @@
 import Foundation
 
-enum MajorArcana: Int, CaseIterable {
+enum TarotCardError: Error {
+  case invalidCardCount(Int)
+
+  var localizedDescription: String {
+    switch self {
+    case .invalidCardCount(let count):
+      return "Invalid card count: \(count). Count must be between 1 and 78."
+    }
+  }
+}
+
+enum MajorArcana: Int, CaseIterable, Sendable {
   case fool = 0
   case magician = 1
   case highPriestess = 2
@@ -23,7 +34,7 @@ enum MajorArcana: Int, CaseIterable {
   case sun = 19
   case judgement = 20
   case world = 21
-  
+
   var name: String {
     switch self {
     case .fool: return "The Fool"
@@ -52,15 +63,15 @@ enum MajorArcana: Int, CaseIterable {
   }
 }
 
-struct MinorArcana {
-  enum Suit: String, CaseIterable {
+struct MinorArcana: Hashable, Sendable {
+  enum Suit: String, CaseIterable, Sendable {
     case wands = "Wands"
-    case pentacles = "Pentacles" 
+    case pentacles = "Pentacles"
     case swords = "Swords"
     case cups = "Cups"
   }
-  
-  enum Value: Int, CaseIterable {
+
+  enum Value: Int, CaseIterable, Sendable {
     case ace = 1
     case two = 2
     case three = 3
@@ -75,7 +86,7 @@ struct MinorArcana {
     case knight = 12
     case queen = 13
     case king = 14
-    
+
     var name: String {
       switch self {
       case .ace: return "Ace"
@@ -95,19 +106,30 @@ struct MinorArcana {
       }
     }
   }
-  
+
   let suit: Suit
   let value: Value
-  
+
   var name: String {
     return "\(value.name) of \(suit.rawValue)"
   }
+
+  static let allCases: [MinorArcana] = {
+    var cards = [MinorArcana]()
+    cards.reserveCapacity(Suit.allCases.count * Value.allCases.count)
+    for suit in Suit.allCases {
+      for value in Value.allCases {
+        cards.append(MinorArcana(suit: suit, value: value))
+      }
+    }
+    return cards
+  }()
 }
 
-enum TarotCard {
+enum TarotCard: Hashable, Sendable {
   case major(MajorArcana)
   case minor(MinorArcana)
-  
+
   var name: String {
     switch self {
     case .major(let arcana):
@@ -118,7 +140,7 @@ enum TarotCard {
   }
 }
 
-class TarotDeck {
+enum TarotDeck {
   static let fullDeck: [TarotCard] = {
     let majorArcana = MajorArcana.allCases
       .lazy
@@ -141,90 +163,11 @@ class TarotDeck {
     return output
   }()
 
-  static func drawRandomCard() -> TarotCard {
-    var rng = SystemRandomNumberGenerator()
-    return drawRandomCard(using: &rng)
-  }
-  
   static func drawRandomCard(using rng: inout some RandomNumberGenerator) -> TarotCard {
     return fullDeck.randomElement(using: &rng)!
   }
-  
-  static func drawCards(count: Int) -> [TarotCard] {
-    var rng = SystemRandomNumberGenerator()
-    return drawCards(count: count, using: &rng)
-  }
-  
+
   static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {
-    return Array(fullDeck.shuffled(using: &rng).prefix(count))
+    Array(fullDeck.shuffled(using: &rng).prefix(count))
   }
-}
-
-struct TarotCardService {
-  func drawSingleCard() -> DrawResult {
-    var rng = SystemRandomNumberGenerator()
-    return drawSingleCard(using: &rng)
-  }
-  
-  func drawSingleCard(using rng: inout some RandomNumberGenerator) -> DrawResult {
-    let card = TarotDeck.drawRandomCard(using: &rng)
-    return DrawResult(
-      cards: [card],
-      message: "🔮 **\(card.name)**\n\nA tarot card has been drawn for you!"
-    )
-  }
-  
-  func drawMultipleCards(count: Int) -> DrawResult {
-    var rng = SystemRandomNumberGenerator()
-    return drawMultipleCards(count: count, using: &rng)
-  }
-  
-  func drawMultipleCards(count: Int, using rng: inout some RandomNumberGenerator) -> DrawResult {
-    let clampedCount = min(max(count, 1), 20)
-    let cards = TarotDeck.drawCards(count: clampedCount, using: &rng)
-    
-    let cardNames = cards.map { "• \($0.name)" }.joined(separator: "\n")
-    let message = "🔮 **Tarot Reading - \(cards.count) Cards**\n\n\(cardNames)"
-    
-    return DrawResult(cards: cards, message: message)
-  }
-  
-  func getFullDeck() -> DeckResult {
-    let allCards = TarotDeck.fullDeck
-    let majorArcana = allCards.compactMap { card in
-      if case .major(let arcana) = card {
-        return arcana.name
-      }
-      return nil
-    }
-    
-    let minorArcana = allCards.compactMap { card in
-      if case .minor(let minor) = card {
-        return minor.name
-      }
-      return nil
-    }
-    
-    let majorList = majorArcana.map { "• \($0)" }.joined(separator: "\n")
-    let minorList = minorArcana.map { "• \($0)" }.joined(separator: "\n")
-    
-    let message = "🃏 **Complete Tarot Deck (78 cards)**\n\n**Major Arcana (22 cards):**\n\(majorList)\n\n**Minor Arcana (56 cards):**\n\(minorList)"
-    
-    return DeckResult(
-      majorArcana: majorArcana,
-      minorArcana: minorArcana,
-      message: message
-    )
-  }
-}
-
-struct DrawResult {
-  let cards: [TarotCard]
-  let message: String
-}
-
-struct DeckResult {
-  let majorArcana: [String]
-  let minorArcana: [String]
-  let message: String
 }

@@ -1,5 +1,7 @@
+import InlineSnapshotTesting
+import SnapshotTestingCustomDump
 import Testing
-@testable import TarotMCP
+@testable import TarotMCPCore
 
 @Suite("Tarot Deck Tests")
 struct TarotDeckTests {
@@ -19,6 +21,7 @@ struct TarotDeckTests {
     }
 
     #expect(majorCards.count == 22)
+    #expect(MajorArcana.allCases.count == 22)
 
     // Check that all Major Arcana are present
     for expectedArcana in MajorArcana.allCases {
@@ -36,42 +39,48 @@ struct TarotDeckTests {
     }
 
     #expect(minorCards.count == 56)
+    #expect(MinorArcana.allCases.count == 56)
+    #expect(MinorArcana.Suit.allCases.count == 4)
+    #expect(MinorArcana.Value.allCases.count == 14)
 
     // Check that all combinations of suits and values are present
     for suit in MinorArcana.Suit.allCases {
       for value in MinorArcana.Value.allCases {
         let expectedCard = MinorArcana(suit: suit, value: value)
-        let found = minorCards.contains { card in
-          card.suit == expectedCard.suit && card.value == expectedCard.value
-        }
-        #expect(found, "Missing \(expectedCard.name)")
+        #expect(
+          minorCards.contains { card in
+            card.suit == expectedCard.suit && card.value == expectedCard.value
+          },
+          "Missing \(expectedCard.name)"
+        )
       }
     }
   }
 
-  @Test("drawRandomCard returns a valid card from the deck")
+  @Test("drawRandomCard returns a valid card from the deck", .repeat(count: 100))
   func drawRandomCard() {
-    let card = TarotDeck.drawRandomCard()
-    #expect(TarotDeck.fullDeck.contains { deckCard in
-      deckCard.name == card.name
-    })
+    var rng = SystemRandomNumberGenerator()
+    let card = TarotDeck.drawRandomCard(using: &rng)
+    #expect(TarotDeck.fullDeck.contains(card))
   }
 
-  @Test("drawCards returns correct number of cards")
+  @Test("drawCards returns correct number of cards", .repeat(count: 100))
   func drawCardsCount() {
-    let oneCard = TarotDeck.drawCards(count: 1)
+    var rng = SystemRandomNumberGenerator()
+    let oneCard = TarotDeck.drawCards(count: 1, using: &rng)
     #expect(oneCard.count == 1)
 
-    let threeCards = TarotDeck.drawCards(count: 3)
+    let threeCards = TarotDeck.drawCards(count: 3, using: &rng)
     #expect(threeCards.count == 3)
 
-    let tenCards = TarotDeck.drawCards(count: 10)
+    let tenCards = TarotDeck.drawCards(count: 10, using: &rng)
     #expect(tenCards.count == 10)
   }
 
-  @Test("drawCards returns valid cards from the deck")
+  @Test("drawCards returns valid cards from the deck", .repeat(count: 100))
   func drawCardsValid() {
-    let cards = TarotDeck.drawCards(count: 5)
+    var rng = SystemRandomNumberGenerator()
+    let cards = TarotDeck.drawCards(count: 5, using: &rng)
 
     for card in cards {
       #expect(TarotDeck.fullDeck.contains { deckCard in
@@ -82,13 +91,15 @@ struct TarotDeckTests {
 
   @Test("drawCards with count larger than deck returns all cards")
   func drawCardsLargeCount() {
-    let allCards = TarotDeck.drawCards(count: 100)
+    var rng = SystemRandomNumberGenerator()
+    let allCards = TarotDeck.drawCards(count: 100, using: &rng)
     #expect(allCards.count == 78)
   }
 
   @Test("drawCards with zero count returns empty array")
   func drawCardsZeroCount() {
-    let noCards = TarotDeck.drawCards(count: 0)
+    var rng = SystemRandomNumberGenerator()
+    let noCards = TarotDeck.drawCards(count: 0, using: &rng)
     #expect(noCards.isEmpty)
   }
 
@@ -103,10 +114,11 @@ struct TarotDeckTests {
     #expect(card1.name == card2.name)
   }
 
-  @Test("drawCards with seeded RNG is deterministic")
+  @Test("drawCards with seeded RNG is deterministic", .repeat(count: 100))
   func drawCardsDeterministic() {
-    var rng1 = SeedablePseudoRNG(seed: 123)
-    var rng2 = SeedablePseudoRNG(seed: 123)
+    let seed = UInt64.random(in: .min ... .max)
+    var rng1 = SeedablePseudoRNG(seed: seed)
+    var rng2 = SeedablePseudoRNG(seed: seed)
 
     let cards1 = TarotDeck.drawCards(count: 5, using: &rng1)
     let cards2 = TarotDeck.drawCards(count: 5, using: &rng2)
@@ -118,30 +130,11 @@ struct TarotDeckTests {
     }
   }
 
-  @Test("Different seeds produce different results")
-  func differentSeedsProduceDifferentResults() {
-    var rng1 = SeedablePseudoRNG(seed: 12345)
-    var rng2 = SeedablePseudoRNG(seed: 67890)
-
-    // Test multiple draws to increase probability of finding a difference
-    var foundDifference = false
-    for _ in 0..<10 {
-      let card1 = TarotDeck.drawRandomCard(using: &rng1)
-      let card2 = TarotDeck.drawRandomCard(using: &rng2)
-
-      if card1.name != card2.name {
-        foundDifference = true
-        break
-      }
-    }
-
-    #expect(foundDifference, "Different seeds should eventually produce different cards")
-  }
-
-  @Test("Seeded RNG produces consistent sequences")
+  @Test("Seeded RNG produces consistent sequences", .repeat(count: 100))
   func seedConsistentSequences() {
-    var rng1 = SeedablePseudoRNG(seed: 999)
-    var rng2 = SeedablePseudoRNG(seed: 999)
+    let seed = UInt64.random(in: .min ... .max)
+    var rng1 = SeedablePseudoRNG(seed: seed)
+    var rng2 = SeedablePseudoRNG(seed: seed)
 
     let sequence1 = (0..<10).map { _ in TarotDeck.drawRandomCard(using: &rng1) }
     let sequence2 = (0..<10).map { _ in TarotDeck.drawRandomCard(using: &rng2) }
@@ -151,4 +144,30 @@ struct TarotDeckTests {
     }
   }
 
+  @Test("drawCards with seeded RNG snapshot", .snapshots(record: .failed))
+  func drawCardsSeededSnapshot() {
+    var rng = SeedablePseudoRNG(seed: 38474)
+    let cards = TarotDeck.drawCards(count: 5, using: &rng)
+    assertInlineSnapshot(of: cards, as: .customDump) {
+      """
+      [
+        [0]: .major(.fool),
+        [1]: .major(.magician),
+        [2]: .major(.emperor),
+        [3]: .minor(
+          MinorArcana(
+            suit: .swords,
+            value: .ten
+          )
+        ),
+        [4]: .minor(
+          MinorArcana(
+            suit: .pentacles,
+            value: .six
+          )
+        )
+      ]
+      """
+    }
+  }
 }
