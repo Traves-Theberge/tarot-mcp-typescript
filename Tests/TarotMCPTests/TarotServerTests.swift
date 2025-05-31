@@ -120,19 +120,3 @@ struct TarotServerMockTests {
     #expect(drawMultipleResult.content.count == 1)
   }
 }
-
-// MARK: - Helper Classes
-
-/// Mock MCP Server for testing server logic without stdio transport
-private class MockMCPServer {
-  private var toolHandlers: [String: Any] = [:]
-  private var methodHandlers: [String: Any] = [:]
-
-  func withMethodHandler<T>(_ type: T.Type, handler: @escaping (T) async throws -> T) {
-    methodHandlers[String(describing: type)] = handler
-  }
-
-  func registerTool(name: String, handler: @escaping () throws -> CallTool.Result) {
-    toolHandlers[name] = handler
-  }
-}
