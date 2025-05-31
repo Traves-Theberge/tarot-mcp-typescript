@@ -9,6 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "TarotMCPCore",
+          "name" : "TarotMCPCore"
+        }
+      ]
+    },
     "targetForVariableExpansion" : {
       "containerPath" : "container:",
       "identifier" : "swift-tarot-MCP",
