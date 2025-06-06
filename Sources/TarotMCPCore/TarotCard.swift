@@ -1,9 +1,9 @@
 import Foundation
 
-enum TarotCardError: Error {
+enum TarotCardError: Error, LocalizedError {
   case invalidCardCount(Int)
 
-  var localizedDescription: String {
+  var errorDescription: String? {
     switch self {
     case .invalidCardCount(let count):
       return "Invalid card count: \(count). Count must be between 1 and 78."
@@ -153,22 +153,14 @@ enum TarotDeck {
         }
       }
     var output = [TarotCard]()
-    output.reserveCapacity(
-      MajorArcana.allCases.count + (
-        MinorArcana.Suit.allCases.count * MinorArcana.Value.allCases.count
-      )
-    )
     output.append(contentsOf: majorArcana)
     output.append(contentsOf: minorArcana)
     return output
   }()
 
   static func drawRandomCard(using rng: inout some RandomNumberGenerator) -> TarotCard {
-    guard let card = fullDeck.randomElement(using: &rng) else {
-      // This should never happen since fullDeck is guaranteed to have 78 cards
-      fatalError("TarotDeck.fullDeck is unexpectedly empty")
-    }
-    return card
+    // This should never fail since fullDeck is guaranteed to have 78 cards
+    fullDeck.randomElement(using: &rng)!
   }
 
   static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {
