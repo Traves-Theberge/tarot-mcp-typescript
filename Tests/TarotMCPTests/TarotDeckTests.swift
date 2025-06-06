@@ -170,4 +170,17 @@ struct TarotDeckTests {
       """
     }
   }
+
+  @Test("Consecutive single card draws are evenly distributed")
+  func evenDistribution() {
+    var rng = SystemRandomNumberGenerator()
+    let picks = sequence(state: ()) { _ in TarotDeck.drawRandomCard(using: &rng) }
+      .prefix(78_000)
+      .reduce(into: CountedSet<TarotCard>()) { result, card in
+        result.insert(card)
+      }
+    for card in TarotDeck.fullDeck {
+      #expect((500...1500).contains(picks.count(of: card)))
+    }
+  }
 }
