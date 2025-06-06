@@ -101,7 +101,7 @@ extension CallTool.Result {
 }
 
 /// Handles MCP tool calls for the Tarot server
-actor TarotServerHandler: Sendable {
+actor TarotServerHandler {
   var rng: any RandomNumberGenerator & Sendable
 
   init(rng: some RandomNumberGenerator & Sendable = SystemRandomNumberGenerator()) {

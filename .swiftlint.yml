@@ -26,11 +26,6 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - vertical_parameter_alignment_on_call
 
-# Disabled rules
-disabled_rules:
-  - todo
-  - line_length # We'll use a custom length
-
 # Custom rules configuration
 line_length:
   warning: 120
