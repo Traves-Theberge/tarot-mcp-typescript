@@ -11,8 +11,8 @@ struct TarotServerHandlerSnapshotTests {
     "get_full_deck tool produces deterministic results",
     .repeat(count: 100)
   )
-  func getFullDeckDeterministic() throws {
-    let deckResult = try TarotServerHandler().handleToolCall(
+  func getFullDeckDeterministic() async throws {
+    let deckResult = try await TarotServerHandler().handleToolCall(
       name: "get_full_deck",
       arguments: nil
     )
@@ -106,14 +106,11 @@ struct TarotServerHandlerSnapshotTests {
     }
   }
 
-  @Test(
-    "draw_multiple_cards tool produces deterministic results",
-    .taskLocal(TarotServerHandler.$rng, value: SeedablePseudoRNG(seed: 33333))
-  )
-  func drawMultipleCardsDeterministic() throws {
-    let handler = TarotServerHandler()
+  @Test("draw_multiple_cards tool produces deterministic results")
+  func drawMultipleCardsDeterministic() async throws {
+    let handler = TarotServerHandler(rng: SeedablePseudoRNG(seed: 33333))
 
-    let result = try handler.handleToolCall(
+    let result = try await handler.handleToolCall(
       name: "draw_multiple_cards",
       arguments: ["count": Value.int(5)]
     )
