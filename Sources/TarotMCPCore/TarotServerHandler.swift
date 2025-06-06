@@ -50,7 +50,7 @@ extension TarotToolRequest {
           description: "Draw a single random tarot card",
           inputSchema: .object([
             "type": .string("object"),
-            "properties": .object([:])
+            "properties": .object([:]),
           ])
         )
       case .drawMultipleCards:
@@ -65,9 +65,9 @@ extension TarotToolRequest {
                 "description": .string("Number of cards to draw (1-78)"),
                 "minimum": .int(1),
                 "maximum": .int(78),
-                "default": .int(3)
+                "default": .int(3),
               ])
-            ])
+            ]),
           ])
         )
       case .getFullDeck:
@@ -76,7 +76,7 @@ extension TarotToolRequest {
           description: "Get all 78 tarot cards in the deck",
           inputSchema: .object([
             "type": .string("object"),
-            "properties": .object([:])
+            "properties": .object([:]),
           ])
         )
       }

@@ -1,7 +1,8 @@
-import Testing
 import Foundation
 import InlineSnapshotTesting
 import MCP
+import Testing
+
 @testable import TarotMCPCore
 
 @Suite("Tarot Server Handler Snapshot Tests")

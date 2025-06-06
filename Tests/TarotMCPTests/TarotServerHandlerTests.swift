@@ -1,7 +1,8 @@
-import Testing
 import Foundation
 import InlineSnapshotTesting
 import MCP
+import Testing
+
 @testable import TarotMCPCore
 
 struct TarotToolRequestTests {
@@ -179,12 +180,14 @@ struct TarotServerHandlerTests {
     #expect(tools.count == 3)
 
     // Test CallTool equivalent - single card
-    let singleCardResult = try await handler.handleToolCall(name: "draw_single_card", arguments: nil)
+    let singleCardResult = try await handler.handleToolCall(
+      name: "draw_single_card", arguments: nil)
     #expect(singleCardResult.content.count == 1)
 
     // Test CallTool equivalent - multiple cards
     let multipleCardArgs = ["count": Value.int(3)]
-    let multipleCardResult = try await handler.handleToolCall(name: "draw_multiple_cards", arguments: multipleCardArgs)
+    let multipleCardResult = try await handler.handleToolCall(
+      name: "draw_multiple_cards", arguments: multipleCardArgs)
     #expect(multipleCardResult.content.count == 1)
 
     // Test CallTool equivalent - full deck

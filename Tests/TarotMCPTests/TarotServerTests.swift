@@ -1,6 +1,7 @@
 import Foundation
-import Testing
 import MCP
+import Testing
+
 @testable import TarotMCPCore
 
 struct TarotServerTests {
@@ -68,17 +69,17 @@ struct TarotServerTests {
 
     // Create MCP initialization sequence
     let initializeRequest = """
-    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",
-    "capabilities":{"tools":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
-    """
+      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",
+      "capabilities":{"tools":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
+      """
 
     let initializedNotification = """
-    {"jsonrpc":"2.0","method":"initialized","params":{}}
-    """
+      {"jsonrpc":"2.0","method":"initialized","params":{}}
+      """
 
     let listToolsRequest = """
-    {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
-    """
+      {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+      """
 
     // Create stream that provides the requests and captures responses
     let (stream, continuation) = AsyncThrowingStream<Data, Swift.Error>.makeStream()
@@ -120,9 +121,8 @@ struct TarotServerTests {
     // Verify at least one response contains the expected tools
     let responseStrings = sendCalls.map { String(data: $0, encoding: .utf8) ?? "" }
     let hasToolsResponse = responseStrings.contains { response in
-      response.contains("draw_single_card") &&
-      response.contains("draw_multiple_cards") &&
-      response.contains("get_full_deck")
+      response.contains("draw_single_card") && response.contains("draw_multiple_cards")
+        && response.contains("get_full_deck")
     }
 
     #expect(hasToolsResponse, "Expected to find a response containing all three tools")
@@ -137,19 +137,19 @@ struct TarotServerTests {
 
     // Create MCP initialization sequence
     let initializeRequest = """
-    {"jsonrpc":"2.0","id":1,"method":"initialize",\
-    "params":{"protocolVersion":"2024-11-05","capabilities":{"tools":{}},\
-    "clientInfo":{"name":"TestClient","version":"1.0.0"}}}
-    """
+      {"jsonrpc":"2.0","id":1,"method":"initialize",\
+      "params":{"protocolVersion":"2024-11-05","capabilities":{"tools":{}},\
+      "clientInfo":{"name":"TestClient","version":"1.0.0"}}}
+      """
 
     let initializedNotification = """
-    {"jsonrpc":"2.0","method":"initialized","params":{}}
-    """
+      {"jsonrpc":"2.0","method":"initialized","params":{}}
+      """
 
     let callToolRequest = """
-    {"jsonrpc":"2.0","id":2,"method":"tools/call",\
-    "params":{"name":"draw_single_card","arguments":{}}}
-    """
+      {"jsonrpc":"2.0","id":2,"method":"tools/call",\
+      "params":{"name":"draw_single_card","arguments":{}}}
+      """
 
     // Create stream that provides the requests and captures responses
     let (stream, continuation) = AsyncThrowingStream<Data, Swift.Error>.makeStream()
@@ -206,17 +206,17 @@ struct TarotServerTests {
 
     // Create MCP initialization sequence
     let initializeRequest = """
-    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",\
-    "capabilities":{"resources":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
-    """
+      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",\
+      "capabilities":{"resources":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
+      """
 
     let initializedNotification = """
-    {"jsonrpc":"2.0","method":"initialized","params":{}}
-    """
+      {"jsonrpc":"2.0","method":"initialized","params":{}}
+      """
 
     let listResourcesRequest = """
-    {"jsonrpc":"2.0","id":2,"method":"resources/list","params":{}}
-    """
+      {"jsonrpc":"2.0","id":2,"method":"resources/list","params":{}}
+      """
 
     // Create stream that provides the requests and captures responses
     let (stream, continuation) = AsyncThrowingStream<Data, Swift.Error>.makeStream()
@@ -261,7 +261,8 @@ struct TarotServerTests {
       response.contains("resources") && response.contains("[]")
     }
 
-    #expect(hasEmptyResourcesResponse, "Expected to find a response containing empty resources list")
+    #expect(
+      hasEmptyResourcesResponse, "Expected to find a response containing empty resources list")
 
     serverTask.cancel()
   }
@@ -273,17 +274,17 @@ struct TarotServerTests {
 
     // Create MCP initialization sequence
     let initializeRequest = """
-    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",\
-    "capabilities":{"prompts":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
-    """
+      {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05",\
+      "capabilities":{"prompts":{}},"clientInfo":{"name":"TestClient","version":"1.0.0"}}}
+      """
 
     let initializedNotification = """
-    {"jsonrpc":"2.0","method":"initialized","params":{}}
-    """
+      {"jsonrpc":"2.0","method":"initialized","params":{}}
+      """
 
     let listPromptsRequest = """
-    {"jsonrpc":"2.0","id":2,"method":"prompts/list","params":{}}
-    """
+      {"jsonrpc":"2.0","id":2,"method":"prompts/list","params":{}}
+      """
 
     // Create stream that provides the requests and captures responses
     let (stream, continuation) = AsyncThrowingStream<Data, Swift.Error>.makeStream()

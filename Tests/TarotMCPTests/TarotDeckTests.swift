@@ -1,6 +1,7 @@
 import InlineSnapshotTesting
 import SnapshotTestingCustomDump
 import Testing
+
 @testable import TarotMCPCore
 
 @Suite("Tarot Deck Tests")
@@ -83,9 +84,10 @@ struct TarotDeckTests {
     let cards = TarotDeck.drawCards(count: 5, using: &rng)
 
     for card in cards {
-      #expect(TarotDeck.fullDeck.contains { deckCard in
-        deckCard.name == card.name
-      })
+      #expect(
+        TarotDeck.fullDeck.contains { deckCard in
+          deckCard.name == card.name
+        })
     }
   }
 

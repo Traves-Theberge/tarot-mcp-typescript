@@ -36,7 +36,7 @@ public struct TarotServer: Sendable {
     }
 
     await server.withMethodHandler(ListResources.self) { _ in
-      ListResources.Result(resources: []) // No resources available
+      ListResources.Result(resources: [])  // No resources available
     }
 
     await server.withMethodHandler(ListPrompts.self) { _ in

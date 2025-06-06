@@ -24,11 +24,13 @@ actor MockTransport: Transport {
     calls: [Call] = [],
     stream: AsyncThrowingStream<Data, any Swift.Error>? = nil
   ) {
-    self.logger = logger ?? {
-      var logger = Logger(label: "MockTransport")
-      logger.logLevel = .critical
-      return logger
-    }()
+    self.logger =
+      logger
+      ?? {
+        var logger = Logger(label: "MockTransport")
+        logger.logLevel = .critical
+        return logger
+      }()
     self.calls = calls
     self.stream = stream
   }

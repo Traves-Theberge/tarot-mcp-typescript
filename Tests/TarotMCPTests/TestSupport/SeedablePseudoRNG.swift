@@ -11,7 +11,7 @@ struct SeedablePseudoRNG: RandomNumberGenerator {
   mutating func next() -> UInt64 {
     // LCG parameters from Numerical Recipes
     // a = 1664525, c = 1013904223, m = 2^32
-    state = state &* 1664525 &+ 1013904223
+    state = state &* 1_664_525 &+ 1_013_904_223
     return state
   }
 
