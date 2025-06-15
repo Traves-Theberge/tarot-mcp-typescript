@@ -164,6 +164,10 @@ enum TarotDeck {
   }
 
   static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {
-    Array(fullDeck.shuffled(using: &rng).prefix(count))
+    var deck = fullDeck
+    for _ in 0..<10 {
+      deck.shuffle(using: &rng)
+    }
+    return Array(deck.prefix(count))
   }
 }

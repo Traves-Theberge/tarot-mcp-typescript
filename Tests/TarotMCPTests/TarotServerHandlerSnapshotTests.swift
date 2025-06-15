@@ -5,7 +5,7 @@ import Testing
 
 @testable import TarotMCPCore
 
-@Suite("Tarot Server Handler Snapshot Tests")
+@Suite("Tarot Server Handler Snapshot Tests", .snapshots(record: .failed))
 struct TarotServerHandlerSnapshotTests {
 
   @Test(
@@ -123,11 +123,11 @@ struct TarotServerHandlerSnapshotTests {
     assertInlineSnapshot(of: text, as: .lines) {
       """
       You drew 5 cards:
-      - The Fool
-      - The Magician
-      - Ten of Swords
-      - The Chariot
-      - Five of Pentacles
+      - Two of Pentacles
+      - Knight of Pentacles
+      - Ace of Cups
+      - Nine of Swords
+      - Seven of Swords
       """
     }
   }

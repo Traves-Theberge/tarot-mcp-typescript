@@ -153,19 +153,19 @@ struct TarotDeckTests {
     assertInlineSnapshot(of: cards, as: .customDump) {
       """
       [
-        [0]: .major(.fool),
-        [1]: .major(.magician),
-        [2]: .major(.emperor),
+        [0]: .major(.death),
+        [1]: .major(.fool),
+        [2]: .major(.tower),
         [3]: .minor(
           MinorArcana(
-            suit: .swords,
-            value: .ten
+            suit: .pentacles,
+            value: .nine
           )
         ),
         [4]: .minor(
           MinorArcana(
-            suit: .pentacles,
-            value: .six
+            suit: .wands,
+            value: .queen
           )
         )
       ]

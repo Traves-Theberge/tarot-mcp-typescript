@@ -8,7 +8,7 @@ struct TarotServerTests {
   @Test("TarotServer creates server with correct configuration")
   func testCreateServer() async {
     let tarotServer = TarotServer()
-    let server = tarotServer.createServer()
+    let server = await tarotServer.createServer()
 
     #expect(server.name == "Tarot MCP Server")
     #expect(server.version == "1.0.0")
@@ -19,7 +19,7 @@ struct TarotServerTests {
   @Test("TarotServer registers all required handlers")
   func testRegisterHandlers() async {
     let tarotServer = TarotServer()
-    let server = tarotServer.createServer()
+    let server = await tarotServer.createServer()
 
     await tarotServer.registerHandlers(on: server)
 

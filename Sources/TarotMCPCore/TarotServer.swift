@@ -1,7 +1,7 @@
 import Foundation
 import MCP
 
-public struct TarotServer: Sendable {
+public actor TarotServer {
   private let handler = TarotServerHandler()
 
   public init() {}
@@ -32,7 +32,7 @@ public struct TarotServer: Sendable {
     }
 
     await server.withMethodHandler(CallTool.self) { params in
-      try await handler.handleToolCall(name: params.name, arguments: params.arguments)
+      try await self.handler.handleToolCall(name: params.name, arguments: params.arguments)
     }
 
     await server.withMethodHandler(ListResources.self) { _ in
