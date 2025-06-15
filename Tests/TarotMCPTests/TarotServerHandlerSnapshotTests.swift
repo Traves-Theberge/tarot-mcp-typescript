@@ -107,12 +107,12 @@ struct TarotServerHandlerSnapshotTests {
     }
   }
 
-  @Test("draw_multiple_cards tool produces deterministic results")
-  func drawMultipleCardsDeterministic() async throws {
+  @Test("draw_cards tool produces deterministic results")
+  func drawCardsDeterministic() async throws {
     let handler = TarotServerHandler(rng: SeedablePseudoRNG(seed: 33333))
 
     let result = try await handler.handleToolCall(
-      name: "draw_multiple_cards",
+      name: "draw_cards",
       arguments: ["count": Value.int(5)]
     )
     #expect(result.content.count == 1)

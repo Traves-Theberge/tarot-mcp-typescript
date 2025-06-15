@@ -58,11 +58,12 @@ struct TarotDeckTests {
     }
   }
 
-  @Test("drawRandomCard returns a valid card from the deck", .repeat(count: 100))
+  @Test("drawCards with count=1 returns a valid card from the deck", .repeat(count: 100))
   func drawRandomCard() {
     var rng = SystemRandomNumberGenerator()
-    let card = TarotDeck.drawRandomCard(using: &rng)
-    #expect(TarotDeck.fullDeck.contains(card))
+    let cards = TarotDeck.drawCards(count: 1, using: &rng)
+    #expect(cards.count == 1)
+    #expect(TarotDeck.fullDeck.contains(cards[0]))
   }
 
   @Test("drawCards returns correct number of cards", .repeat(count: 100))
@@ -110,8 +111,8 @@ struct TarotDeckTests {
     var rng1 = SeedablePseudoRNG(seed: 42)
     var rng2 = SeedablePseudoRNG(seed: 42)
 
-    let card1 = TarotDeck.drawRandomCard(using: &rng1)
-    let card2 = TarotDeck.drawRandomCard(using: &rng2)
+    let card1 = TarotDeck.drawCards(count: 1, using: &rng1)[0]
+    let card2 = TarotDeck.drawCards(count: 1, using: &rng2)[0]
 
     #expect(card1.name == card2.name)
   }
@@ -138,8 +139,8 @@ struct TarotDeckTests {
     var rng1 = SeedablePseudoRNG(seed: seed)
     var rng2 = SeedablePseudoRNG(seed: seed)
 
-    let sequence1 = (0..<10).map { _ in TarotDeck.drawRandomCard(using: &rng1) }
-    let sequence2 = (0..<10).map { _ in TarotDeck.drawRandomCard(using: &rng2) }
+    let sequence1 = (0..<10).map { _ in TarotDeck.drawCards(count: 1, using: &rng1)[0] }
+    let sequence2 = (0..<10).map { _ in TarotDeck.drawCards(count: 1, using: &rng2)[0] }
 
     for (card1, card2) in zip(sequence1, sequence2) {
       #expect(card1.name == card2.name)
@@ -176,7 +177,7 @@ struct TarotDeckTests {
   @Test("Consecutive single card draws are evenly distributed")
   func evenDistribution() {
     var rng = SystemRandomNumberGenerator()
-    let picks = sequence(state: ()) { _ in TarotDeck.drawRandomCard(using: &rng) }
+    let picks = sequence(state: ()) { _ in TarotDeck.drawCards(count: 1, using: &rng)[0] }
       .prefix(78_000)
       .reduce(into: CountedSet<TarotCard>()) { result, card in
         result.insert(card)

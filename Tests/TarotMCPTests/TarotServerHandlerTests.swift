@@ -9,18 +9,18 @@ struct TarotToolRequestTests {
   @Test("init error description is good")
   func goodErrorDescription() throws {
     let error = try #require(throws: (any Swift.Error).self) {
-      try TarotToolRequest(name: "draw_multiple_cards", arguments: ["count": .int(0)])
+      try TarotToolRequest(name: "draw_cards", arguments: ["count": .int(0)])
     }
     #expect(error.localizedDescription == "Invalid card count: 0. Count must be between 1 and 78.")
   }
 }
 
 struct TarotServerHandlerTests {
-  @Test("draw_single_card tool returns valid response")
+  @Test("draw_cards tool returns valid response for single card")
   func testDrawSingleCardTool() async throws {
     let handler = TarotServerHandler()
 
-    let result = try await handler.handleToolCall(name: "draw_single_card", arguments: nil)
+    let result = try await handler.handleToolCall(name: "draw_cards", arguments: nil)
 
     #expect(result.content.count == 1)
     if case .text(let message) = result.content[0] {
@@ -30,13 +30,13 @@ struct TarotServerHandlerTests {
     }
   }
 
-  @Test("draw_single_card tool produces deterministic results")
+  @Test("draw_cards tool produces deterministic results for single card")
   func testDrawSingleCardDeterministic() async throws {
     let handler1 = TarotServerHandler(rng: SeedablePseudoRNG(seed: 54321))
     let handler2 = TarotServerHandler(rng: SeedablePseudoRNG(seed: 54321))
 
-    let result1 = try await handler1.handleToolCall(name: "draw_single_card", arguments: nil)
-    let result2 = try await handler2.handleToolCall(name: "draw_single_card", arguments: nil)
+    let result1 = try await handler1.handleToolCall(name: "draw_cards", arguments: nil)
+    let result2 = try await handler2.handleToolCall(name: "draw_cards", arguments: nil)
 
     // Both should return the same card when using the same seed
     #expect(result1.content.count == 1)
@@ -53,34 +53,34 @@ struct TarotServerHandlerTests {
     assertInlineSnapshot(of: message1, as: .lines) {
       """
       You drew:
-      - The Fool
+      - Five of Pentacles
       """
     }
   }
 
-  @Test("draw_multiple_cards tool with default count")
+  @Test("draw_cards tool with default count")
   func testDrawMultipleCardsDefault() async throws {
     let handler = TarotServerHandler(rng: SeedablePseudoRNG(seed: 98765))
-    let result = try await handler.handleToolCall(name: "draw_multiple_cards", arguments: nil)
+    let result = try await handler.handleToolCall(name: "draw_cards", arguments: nil)
 
     #expect(result.content.count == 1)
     if case .text(let message) = result.content[0] {
-      #expect(message.hasPrefix("You drew 3 cards:\n"))
+      #expect(message.hasPrefix("You drew:\n"))
       #expect(message.contains("- "))
-      // Should have 3 cards (lines starting with "- ")
+      // Should have 1 card (lines starting with "- ")
       let cardLines = message.components(separatedBy: "\n").filter { $0.hasPrefix("- ") }
-      #expect(cardLines.count == 3)
+      #expect(cardLines.count == 1)
     } else {
       Issue.record("Expected text content")
     }
   }
 
-  @Test("draw_multiple_cards tool with custom count")
+  @Test("draw_cards tool with custom count")
   func testDrawMultipleCardsCustomCount() async throws {
     let handler = TarotServerHandler(rng: SeedablePseudoRNG(seed: 11111))
 
     let arguments = ["count": Value.int(7)]
-    let result = try await handler.handleToolCall(name: "draw_multiple_cards", arguments: arguments)
+    let result = try await handler.handleToolCall(name: "draw_cards", arguments: arguments)
 
     #expect(result.content.count == 1)
     if case .text(let message) = result.content[0] {
@@ -92,26 +92,26 @@ struct TarotServerHandlerTests {
     }
   }
 
-  @Test("draw_multiple_cards tool throws errors for invalid counts")
+  @Test("draw_cards tool throws errors for invalid counts")
   func testDrawMultipleCardsCountValidation() async throws {
     let handler = TarotServerHandler(rng: SeedablePseudoRNG(seed: 22222))
 
     // Test upper bound validation
     let argumentsHigh = ["count": Value.int(79)]
     await #expect(throws: TarotCardError.self) {
-      try await handler.handleToolCall(name: "draw_multiple_cards", arguments: argumentsHigh)
+      try await handler.handleToolCall(name: "draw_cards", arguments: argumentsHigh)
     }
 
     // Test lower bound validation
     let argumentsLow = ["count": Value.int(0)]
     await #expect(throws: TarotCardError.self) {
-      try await handler.handleToolCall(name: "draw_multiple_cards", arguments: argumentsLow)
+      try await handler.handleToolCall(name: "draw_cards", arguments: argumentsLow)
     }
 
     // Test negative values
     let argumentsNegative = ["count": Value.int(-5)]
     await #expect(throws: TarotCardError.self) {
-      try await handler.handleToolCall(name: "draw_multiple_cards", arguments: argumentsNegative)
+      try await handler.handleToolCall(name: "draw_cards", arguments: argumentsNegative)
     }
   }
 
@@ -147,26 +147,24 @@ struct TarotServerHandlerTests {
   func testGetAvailableTools() {
     let tools = TarotServerHandler.getAvailableTools()
 
-    #expect(tools.count == 3)
+    #expect(tools.count == 2)
 
     let toolNames = tools.map { $0.name }
-    #expect(toolNames.contains("draw_single_card"))
-    #expect(toolNames.contains("draw_multiple_cards"))
+    #expect(toolNames.contains("draw_cards"))
     #expect(toolNames.contains("get_full_deck"))
 
-    // Verify draw_multiple_cards has proper schema
-    let drawMultipleTool = tools.first { $0.name == "draw_multiple_cards" }
-    #expect(drawMultipleTool != nil)
-    #expect(drawMultipleTool?.inputSchema != nil)
+    // Verify draw_cards has proper schema
+    let drawCardsTool = tools.first { $0.name == "draw_cards" }
+    #expect(drawCardsTool != nil)
+    #expect(drawCardsTool?.inputSchema != nil)
   }
 
   @Test("Server tools are configured correctly")
   func testServerToolsConfiguration() {
     // Test that the handler is properly initialized by checking available tools
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 3)
-    #expect(tools.contains { $0.name == "draw_single_card" })
-    #expect(tools.contains { $0.name == "draw_multiple_cards" })
+    #expect(tools.count == 2)
+    #expect(tools.contains { $0.name == "draw_cards" })
     #expect(tools.contains { $0.name == "get_full_deck" })
   }
 
@@ -177,17 +175,17 @@ struct TarotServerHandlerTests {
 
     // Test ListTools equivalent
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 3)
+    #expect(tools.count == 2)
 
     // Test CallTool equivalent - single card
     let singleCardResult = try await handler.handleToolCall(
-      name: "draw_single_card", arguments: nil)
+      name: "draw_cards", arguments: nil)
     #expect(singleCardResult.content.count == 1)
 
     // Test CallTool equivalent - multiple cards
     let multipleCardArgs = ["count": Value.int(3)]
     let multipleCardResult = try await handler.handleToolCall(
-      name: "draw_multiple_cards", arguments: multipleCardArgs)
+      name: "draw_cards", arguments: multipleCardArgs)
     #expect(multipleCardResult.content.count == 1)
 
     // Test CallTool equivalent - full deck
@@ -211,12 +209,12 @@ struct TarotServerHandlerTests {
     // Test that validation errors are properly propagated
     let invalidArgs = ["count": Value.int(0)]
     await #expect(throws: TarotCardError.self) {
-      try await handler.handleToolCall(name: "draw_multiple_cards", arguments: invalidArgs)
+      try await handler.handleToolCall(name: "draw_cards", arguments: invalidArgs)
     }
 
     let tooManyArgs = ["count": Value.int(79)]
     await #expect(throws: TarotCardError.self) {
-      try await handler.handleToolCall(name: "draw_multiple_cards", arguments: tooManyArgs)
+      try await handler.handleToolCall(name: "draw_cards", arguments: tooManyArgs)
     }
   }
 
@@ -227,17 +225,17 @@ struct TarotServerHandlerTests {
 
     // Test ListTools registration
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 3)
+    #expect(tools.count == 2)
 
     // Test CallTool registration with various scenarios
     let drawSingleResult = try await handler.handleToolCall(
-      name: "draw_single_card",
+      name: "draw_cards",
       arguments: nil
     )
     #expect(drawSingleResult.content.count == 1)
 
     let drawMultipleResult = try await handler.handleToolCall(
-      name: "draw_multiple_cards",
+      name: "draw_cards",
       arguments: ["count": Value.int(5)]
     )
     #expect(drawMultipleResult.content.count == 1)

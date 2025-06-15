@@ -21,7 +21,7 @@ struct TarotServerErrorTests {
       """
 
     let callToolRequest = """
-      {"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"draw_multiple_cards",\
+      {"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"draw_cards",\
       "arguments":{"count":0}}}
       """
 

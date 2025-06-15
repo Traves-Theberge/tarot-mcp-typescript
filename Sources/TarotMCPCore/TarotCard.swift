@@ -158,11 +158,6 @@ enum TarotDeck {
     return output
   }()
 
-  static func drawRandomCard(using rng: inout some RandomNumberGenerator) -> TarotCard {
-    // This should never fail since fullDeck is guaranteed to have 78 cards
-    fullDeck.randomElement(using: &rng)!  // swiftlint:disable:this force_unwrapping
-  }
-
   static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {
     var deck = fullDeck
     for _ in 0..<10 {

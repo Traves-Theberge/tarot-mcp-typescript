@@ -2,8 +2,7 @@ import Foundation
 import MCP
 
 enum TarotToolRequest {
-  case drawSingleCard
-  case drawMultipleCards(count: Int)
+  case drawCards(count: Int)
   case getFullDeck
 
   init(name: String, arguments: [String: Value]?) throws {
@@ -11,14 +10,12 @@ enum TarotToolRequest {
       throw MCPError.methodNotFound("Unknown tool: \(name)")
     }
     switch kind {
-    case .drawSingleCard:
-      self = .drawSingleCard
-    case .drawMultipleCards:
-      let count = arguments?["count"]?.intValue ?? 3
+    case .drawCards:
+      let count = arguments?["count"]?.intValue ?? 1
       guard count >= 1 && count <= 78 else {
         throw TarotCardError.invalidCardCount(count)
       }
-      self = .drawMultipleCards(count: count)
+      self = .drawCards(count: count)
     case .getFullDeck:
       self = .getFullDeck
     }
@@ -26,10 +23,9 @@ enum TarotToolRequest {
 
   func result(rng: inout some RandomNumberGenerator) -> CallTool.Result {
     switch self {
-    case .drawSingleCard:
-      return .singleCard(card: TarotDeck.drawRandomCard(using: &rng))
-    case .drawMultipleCards(let count):
-      return .multipleCards(cards: TarotDeck.drawCards(count: count, using: &rng))
+    case .drawCards(let count):
+      let cards = TarotDeck.drawCards(count: count, using: &rng)
+      return count == 1 ? .singleCard(card: cards[0]) : .multipleCards(cards: cards)
     case .getFullDeck:
       return .fullDeck(deck: TarotDeck.fullDeck)
     }
@@ -38,25 +34,15 @@ enum TarotToolRequest {
 
 extension TarotToolRequest {
   enum Kind: String, CaseIterable {
-    case drawSingleCard = "draw_single_card"
-    case drawMultipleCards = "draw_multiple_cards"
+    case drawCards = "draw_cards"
     case getFullDeck = "get_full_deck"
 
     var toolDescription: Tool {
       switch self {
-      case .drawSingleCard:
+      case .drawCards:
         return Tool(
           name: self.rawValue,
-          description: "Draw a single random tarot card",
-          inputSchema: .object([
-            "type": .string("object"),
-            "properties": .object([:]),
-          ])
-        )
-      case .drawMultipleCards:
-        return Tool(
-          name: self.rawValue,
-          description: "Draw multiple tarot cards",
+          description: "Draw one or more tarot cards",
           inputSchema: .object([
             "type": .string("object"),
             "properties": .object([
@@ -65,7 +51,7 @@ extension TarotToolRequest {
                 "description": .string("Number of cards to draw (1-78)"),
                 "minimum": .int(1),
                 "maximum": .int(78),
-                "default": .int(3),
+                "default": .int(1),
               ])
             ]),
           ])

@@ -121,11 +121,10 @@ struct TarotServerTests {
     // Verify at least one response contains the expected tools
     let responseStrings = sendCalls.map { String(data: $0, encoding: .utf8) ?? "" }
     let hasToolsResponse = responseStrings.contains { response in
-      response.contains("draw_single_card") && response.contains("draw_multiple_cards")
-        && response.contains("get_full_deck")
+      response.contains("draw_cards") && response.contains("get_full_deck")
     }
 
-    #expect(hasToolsResponse, "Expected to find a response containing all three tools")
+    #expect(hasToolsResponse, "Expected to find a response containing both tools")
 
     serverTask.cancel()
   }
@@ -148,7 +147,7 @@ struct TarotServerTests {
 
     let callToolRequest = """
       {"jsonrpc":"2.0","id":2,"method":"tools/call",\
-      "params":{"name":"draw_single_card","arguments":{}}}
+      "params":{"name":"draw_cards","arguments":{}}}
       """
 
     // Create stream that provides the requests and captures responses
