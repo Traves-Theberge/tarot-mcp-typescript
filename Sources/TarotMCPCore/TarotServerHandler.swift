@@ -53,7 +53,7 @@ extension TarotToolRequest {
                 "maximum": .int(78),
                 "default": .int(1),
               ])
-            ]),
+            ])
           ])
         )
       case .getFullDeck:
@@ -62,7 +62,7 @@ extension TarotToolRequest {
           description: "Get all 78 tarot cards in the deck",
           inputSchema: .object([
             "type": .string("object"),
-            "properties": .object([:]),
+            "properties": .object([:])
           ])
         )
       }
