@@ -4,7 +4,12 @@ import TarotMCPCore
 @main
 struct TarotMCPMain {
   static func main() async throws {
-    let server = TarotServer()
-    try await server.run()
+    do {
+      let server = TarotServer()
+      try await server.run()
+    } catch {
+      fputs("Error: \(error)\n", stderr)
+      throw error
+    }
   }
 }
