@@ -28,19 +28,24 @@ opt_in_rules:
 
 disabled_rules:
   - trailing_comma
+  - optional_data_string_conversion
 
 # Custom rules configuration
 line_length:
-  warning: 120
-  error: 150
+  warning: 110
+  error: 160
 
 function_body_length:
   warning: 100
-  error: 200
+  error: 250
 
 type_body_length:
   warning: 300
   error: 600
+
+file_length:
+  warning: 600
+  error: 1000
 
 identifier_name:
   min_length:

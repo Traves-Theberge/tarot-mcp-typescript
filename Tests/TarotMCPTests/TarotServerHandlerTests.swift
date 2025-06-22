@@ -1,6 +1,7 @@
 import Foundation
 import InlineSnapshotTesting
 import MCP
+import SnapshotTesting
 import Testing
 
 @testable import TarotMCPCore
@@ -15,6 +16,7 @@ struct TarotToolRequestTests {
   }
 }
 
+@Suite(.snapshots(record: .failed))
 struct TarotServerHandlerTests {
   @Test("draw_cards tool returns valid response for single card")
   func testDrawSingleCardTool() async throws {
@@ -23,11 +25,19 @@ struct TarotServerHandlerTests {
     let result = try await handler.handleToolCall(name: "draw_cards", arguments: nil)
 
     #expect(result.content.count == 1)
-    if case .text(let message) = result.content[0] {
-      #expect(message.hasPrefix("You drew:\n- "))
-    } else {
+    guard case .text(let jsonString) = result.content[0] else {
       Issue.record("Expected text content")
+      return
     }
+
+    // Parse JSON and validate structure
+    let jsonData = try #require(jsonString.data(using: .utf8))
+    let cards = try #require(JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]])
+
+    #expect(cards.count == 1)
+    let card = try #require(cards.first)
+    #expect(card["name"] is String)
+    #expect(card["image"] is String)
   }
 
   @Test("draw_cards tool produces deterministic results for single card")
@@ -51,10 +61,14 @@ struct TarotServerHandlerTests {
     }
     #expect(message1 == message2)
     assertInlineSnapshot(of: message1, as: .lines) {
-      """
-      You drew:
-      - Five of Pentacles
-      """
+      #"""
+      [
+        {
+          "image" : "tarot:\/\/card\/minor\/pentacles\/5",
+          "name" : "Five of Pentacles"
+        }
+      ]
+      """#
     }
   }
 
@@ -64,15 +78,20 @@ struct TarotServerHandlerTests {
     let result = try await handler.handleToolCall(name: "draw_cards", arguments: nil)
 
     #expect(result.content.count == 1)
-    if case .text(let message) = result.content[0] {
-      #expect(message.hasPrefix("You drew:\n"))
-      #expect(message.contains("- "))
-      // Should have 1 card (lines starting with "- ")
-      let cardLines = message.components(separatedBy: "\n").filter { $0.hasPrefix("- ") }
-      #expect(cardLines.count == 1)
-    } else {
+    guard case .text(let jsonString) = result.content[0] else {
       Issue.record("Expected text content")
+      return
     }
+
+    // Parse JSON directly
+    let jsonData = try #require(jsonString.data(using: .utf8))
+    let cards = try #require(JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]])
+
+    // Should have exactly 1 card
+    #expect(cards.count == 1)
+    let card = try #require(cards.first)
+    #expect(card["name"] as? String == "The Emperor")
+    #expect(card["image"] as? String == "tarot://card/major/4")
   }
 
   @Test("draw_cards tool with custom count")
@@ -83,12 +102,24 @@ struct TarotServerHandlerTests {
     let result = try await handler.handleToolCall(name: "draw_cards", arguments: arguments)
 
     #expect(result.content.count == 1)
-    if case .text(let message) = result.content[0] {
-      #expect(message.hasPrefix("You drew 7 cards:\n"))
-      let cardLines = message.components(separatedBy: "\n").filter { $0.hasPrefix("- ") }
-      #expect(cardLines.count == 7)
-    } else {
+    guard case .text(let jsonString) = result.content[0] else {
       Issue.record("Expected text content")
+      return
+    }
+
+    // Parse JSON directly
+    let jsonData = try #require(jsonString.data(using: .utf8))
+    let cards = try #require(JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]])
+
+    // Should have exactly 7 cards
+    #expect(cards.count == 7)
+
+    // Verify each card has name and image
+    for card in cards {
+      #expect(card["name"] is String)
+      #expect(card["image"] is String)
+      let imageURI = try #require(card["image"] as? String)
+      #expect(imageURI.hasPrefix("tarot://card/"))
     }
   }
 
@@ -122,15 +153,30 @@ struct TarotServerHandlerTests {
     let result = try await handler.handleToolCall(name: "get_full_deck", arguments: nil)
 
     #expect(result.content.count == 1)
-    if case .text(let message) = result.content[0] {
-      #expect(message.hasPrefix("Full deck (78 cards):\n"))
-      #expect(message.contains("- The Fool"))
-      #expect(message.contains("- Ace of Wands"))
-      #expect(message.contains("- King of Cups"))
-      let cardLines = message.components(separatedBy: "\n").filter { $0.hasPrefix("- ") }
-      #expect(cardLines.count == 78)
-    } else {
+    guard case .text(let jsonString) = result.content[0] else {
       Issue.record("Expected text content")
+      return
+    }
+
+    // Parse JSON and validate structure
+    let jsonData = try #require(jsonString.data(using: .utf8))
+    let cards = try #require(JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]])
+
+    // Should have exactly 78 cards
+    #expect(cards.count == 78)
+
+    // Check that specific cards are present
+    let cardNames = cards.compactMap { $0["name"] as? String }
+    #expect(cardNames.contains("The Fool"))
+    #expect(cardNames.contains("Ace of Wands"))
+    #expect(cardNames.contains("King of Cups"))
+
+    // Verify each card has name and image
+    for card in cards {
+      #expect(card["name"] is String)
+      #expect(card["image"] is String)
+      let imageURI = try #require(card["image"] as? String)
+      #expect(imageURI.hasPrefix("tarot://card/"))
     }
   }
 

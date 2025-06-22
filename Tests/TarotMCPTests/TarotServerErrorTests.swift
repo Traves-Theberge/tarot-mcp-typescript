@@ -4,6 +4,7 @@ import Testing
 
 @testable import TarotMCPCore
 
+@Suite
 struct TarotServerErrorTests {
   @Test("TarotServer returns proper error message for invalid card count")
   func testCallToolInvalidCountErrorMessage() async throws {

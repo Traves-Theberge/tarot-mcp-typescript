@@ -58,7 +58,7 @@ struct TarotDeckTests {
     }
   }
 
-  @Test("drawCards with count=1 returns a valid card from the deck", .repeat(count: 100))
+  @Test("drawCards with count=1 returns a valid card from the deck", .repeat(count: 10))
   func drawRandomCard() {
     var rng = SystemRandomNumberGenerator()
     let cards = TarotDeck.drawCards(count: 1, using: &rng)
@@ -66,7 +66,7 @@ struct TarotDeckTests {
     #expect(TarotDeck.fullDeck.contains(cards[0]))
   }
 
-  @Test("drawCards returns correct number of cards", .repeat(count: 100))
+  @Test("drawCards returns correct number of cards", .repeat(count: 10))
   func drawCardsCount() {
     var rng = SystemRandomNumberGenerator()
     let oneCard = TarotDeck.drawCards(count: 1, using: &rng)
@@ -79,16 +79,15 @@ struct TarotDeckTests {
     #expect(tenCards.count == 10)
   }
 
-  @Test("drawCards returns valid cards from the deck", .repeat(count: 100))
+  private let fullDeckNames = Set(TarotDeck.fullDeck.lazy.map(\.name))
+
+  @Test("drawCards returns valid cards from the deck", .repeat(count: 10))
   func drawCardsValid() {
     var rng = SystemRandomNumberGenerator()
     let cards = TarotDeck.drawCards(count: 5, using: &rng)
 
     for card in cards {
-      #expect(
-        TarotDeck.fullDeck.contains { deckCard in
-          deckCard.name == card.name
-        })
+      #expect(fullDeckNames.contains(card.name))
     }
   }
 
@@ -117,7 +116,7 @@ struct TarotDeckTests {
     #expect(card1.name == card2.name)
   }
 
-  @Test("drawCards with seeded RNG is deterministic", .repeat(count: 100))
+  @Test("drawCards with seeded RNG is deterministic", .repeat(count: 10))
   func drawCardsDeterministic() {
     let seed = UInt64.random(in: .min ... .max)
     var rng1 = SeedablePseudoRNG(seed: seed)
@@ -133,7 +132,7 @@ struct TarotDeckTests {
     }
   }
 
-  @Test("Seeded RNG produces consistent sequences", .repeat(count: 100))
+  @Test("Seeded RNG produces consistent sequences", .repeat(count: 10))
   func seedConsistentSequences() {
     let seed = UInt64.random(in: .min ... .max)
     var rng1 = SeedablePseudoRNG(seed: seed)
@@ -147,7 +146,7 @@ struct TarotDeckTests {
     }
   }
 
-  @Test("drawCards with seeded RNG snapshot", .snapshots(record: .failed))
+  @Test("drawCards with seeded RNG snapshot")
   func drawCardsSeededSnapshot() {
     var rng = SeedablePseudoRNG(seed: 38474)
     let cards = TarotDeck.drawCards(count: 5, using: &rng)

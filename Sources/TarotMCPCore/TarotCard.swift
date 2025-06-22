@@ -138,6 +138,20 @@ enum TarotCard: Hashable, Sendable {
       return minorArcana.name
     }
   }
+
+  var imageResourceURI: String {
+    switch self {
+    case .major(let arcana):
+      return "tarot://card/major/\(arcana.rawValue)"
+    case .minor(let minorArcana):
+      return "tarot://card/minor/\(minorArcana.suit.rawValue.lowercased())/\(minorArcana.value.rawValue)"
+    }
+  }
+}
+
+struct CardResponse: Codable {
+  var name: String
+  var image: String
 }
 
 enum TarotDeck {
@@ -158,11 +172,14 @@ enum TarotDeck {
     return output
   }()
 
-  static func drawCards(count: Int, using rng: inout some RandomNumberGenerator) -> [TarotCard] {
+  static func drawCards(
+    count: Int,
+    using rng: inout some RandomNumberGenerator
+  ) -> ArraySlice<TarotCard> {
     var deck = fullDeck
     for _ in 0..<10 {
       deck.shuffle(using: &rng)
     }
-    return Array(deck.prefix(count))
+    return deck.prefix(count)
   }
 }

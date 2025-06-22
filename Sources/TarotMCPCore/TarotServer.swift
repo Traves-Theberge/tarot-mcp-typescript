@@ -1,15 +1,27 @@
 import Foundation
+import Logging
 import MCP
 
 public actor TarotServer {
-  private let handler = TarotServerHandler()
+  private let handler: TarotServerHandler
+  private let logger = Logger(label: "TarotServer")
 
-  public init() {}
+  public init() {
+    self.handler = TarotServerHandler()
+  }
+
+  internal init(handler: TarotServerHandler) {
+    self.handler = handler
+  }
 
   public func run(transport: any Transport = StdioTransport()) async throws {
+    logger.info("Creating server...")
     let server = createServer()
+    logger.info("Registering handlers...")
     await registerHandlers(on: server)
+    logger.info("Starting server transport...")
     try await server.start(transport: transport)
+    logger.info("Server started, waiting for completion...")
     await server.waitUntilCompleted()
   }
 
@@ -20,6 +32,7 @@ public actor TarotServer {
       name: "Tarot MCP Server",
       version: "1.0.0",
       capabilities: Server.Capabilities(
+        resources: Server.Capabilities.Resources(),
         tools: Server.Capabilities.Tools()
       ),
       configuration: .strict
@@ -36,7 +49,11 @@ public actor TarotServer {
     }
 
     await server.withMethodHandler(ListResources.self) { _ in
-      ListResources.Result(resources: [])  // No resources available
+      ListResources.Result(resources: TarotServerHandler.getAvailableResources())
+    }
+
+    await server.withMethodHandler(ReadResource.self) { params in
+      try await self.handler.readResource(uri: params.uri)
     }
 
     await server.withMethodHandler(ListPrompts.self) { _ in
