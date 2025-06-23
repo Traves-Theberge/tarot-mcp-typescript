@@ -32,7 +32,6 @@ public actor TarotServer {
       name: "Tarot MCP Server",
       version: "1.0.0",
       capabilities: Server.Capabilities(
-        resources: Server.Capabilities.Resources(),
         tools: Server.Capabilities.Tools()
       ),
       configuration: .strict
@@ -46,14 +45,6 @@ public actor TarotServer {
 
     await server.withMethodHandler(CallTool.self) { params in
       try await self.handler.handleToolCall(name: params.name, arguments: params.arguments)
-    }
-
-    await server.withMethodHandler(ListResources.self) { _ in
-      ListResources.Result(resources: TarotServerHandler.getAvailableResources())
-    }
-
-    await server.withMethodHandler(ReadResource.self) { params in
-      try await self.handler.readResource(uri: params.uri)
     }
 
     await server.withMethodHandler(ListPrompts.self) { _ in

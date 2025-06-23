@@ -151,7 +151,7 @@ enum TarotCard: Hashable, Sendable {
 
 struct CardResponse: Codable {
   var name: String
-  var image: String
+  var imageURI: String
 }
 
 enum TarotDeck {

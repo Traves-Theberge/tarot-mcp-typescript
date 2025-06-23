@@ -141,7 +141,7 @@ struct TarotServerMCPProtocolTests {
     // swiftlint:disable line_length
     assertInlineSnapshot(of: toolCallResponse, as: .lines) {
       #"""
-      {"id":2,"jsonrpc":"2.0","result":{"content":[{"text":"[\n  {\n    \"image\" : \"tarot:\\/\\/card\\/major\\/5\",\n    \"name\" : \"The Hierophant\"\n  }\n]","type":"text"}]}}
+      {"id":2,"jsonrpc":"2.0","result":{"content":[{"text":"[\n  {\n    \"imageURI\" : \"tarot:\\/\\/card\\/major\\/5\",\n    \"name\" : \"The Hierophant\"\n  }\n]","type":"text"}]}}
       """#
     }
     // swiftlint:enable line_length

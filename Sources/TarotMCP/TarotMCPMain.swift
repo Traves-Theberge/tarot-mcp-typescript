@@ -1,12 +1,13 @@
 import Foundation
 import Logging
+import OSLog
 import TarotMCPCore
 
 @main
 struct TarotMCPMain {
   static func main() async throws {
     let logger = Logger(label: "TarotMCPMain")
-    
+
     do {
       logger.info("Starting Tarot MCP Server...")
       let server = TarotServer()

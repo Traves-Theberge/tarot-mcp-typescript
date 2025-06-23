@@ -37,7 +37,7 @@ struct TarotServerHandlerTests {
     #expect(cards.count == 1)
     let card = try #require(cards.first)
     #expect(card["name"] is String)
-    #expect(card["image"] is String)
+    #expect(card["imageURI"] is String)
   }
 
   @Test("draw_cards tool produces deterministic results for single card")
@@ -64,7 +64,7 @@ struct TarotServerHandlerTests {
       #"""
       [
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/5",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/5",
           "name" : "Five of Pentacles"
         }
       ]
@@ -91,7 +91,7 @@ struct TarotServerHandlerTests {
     #expect(cards.count == 1)
     let card = try #require(cards.first)
     #expect(card["name"] as? String == "The Emperor")
-    #expect(card["image"] as? String == "tarot://card/major/4")
+    #expect(card["imageURI"] as? String == "tarot://card/major/4")
   }
 
   @Test("draw_cards tool with custom count")
@@ -117,8 +117,8 @@ struct TarotServerHandlerTests {
     // Verify each card has name and image
     for card in cards {
       #expect(card["name"] is String)
-      #expect(card["image"] is String)
-      let imageURI = try #require(card["image"] as? String)
+      #expect(card["imageURI"] is String)
+      let imageURI = try #require(card["imageURI"] as? String)
       #expect(imageURI.hasPrefix("tarot://card/"))
     }
   }
@@ -174,8 +174,8 @@ struct TarotServerHandlerTests {
     // Verify each card has name and image
     for card in cards {
       #expect(card["name"] is String)
-      #expect(card["image"] is String)
-      let imageURI = try #require(card["image"] as? String)
+      #expect(card["imageURI"] is String)
+      let imageURI = try #require(card["imageURI"] as? String)
       #expect(imageURI.hasPrefix("tarot://card/"))
     }
   }
@@ -193,7 +193,7 @@ struct TarotServerHandlerTests {
   func testGetAvailableTools() {
     let tools = TarotServerHandler.getAvailableTools()
 
-    #expect(tools.count == 2)
+    #expect(tools.count == 3)
 
     let toolNames = tools.map { $0.name }
     #expect(toolNames.contains("draw_cards"))
@@ -209,7 +209,7 @@ struct TarotServerHandlerTests {
   func testServerToolsConfiguration() {
     // Test that the handler is properly initialized by checking available tools
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 2)
+    #expect(tools.count == 3)
     #expect(tools.contains { $0.name == "draw_cards" })
     #expect(tools.contains { $0.name == "get_full_deck" })
   }
@@ -221,7 +221,7 @@ struct TarotServerHandlerTests {
 
     // Test ListTools equivalent
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 2)
+    #expect(tools.count == 3)
 
     // Test CallTool equivalent - single card
     let singleCardResult = try await handler.handleToolCall(
@@ -271,7 +271,7 @@ struct TarotServerHandlerTests {
 
     // Test ListTools registration
     let tools = TarotServerHandler.getAvailableTools()
-    #expect(tools.count == 2)
+    #expect(tools.count == 3)
 
     // Test CallTool registration with various scenarios
     let drawSingleResult = try await handler.handleToolCall(

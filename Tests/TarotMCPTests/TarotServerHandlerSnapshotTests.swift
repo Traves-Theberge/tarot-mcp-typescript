@@ -23,315 +23,315 @@ struct TarotServerHandlerSnapshotTests { // swiftlint:disable:this type_body_len
       #"""
       [
         {
-          "image" : "tarot:\/\/card\/major\/0",
+          "imageURI" : "tarot:\/\/card\/major\/0",
           "name" : "The Fool"
         },
         {
-          "image" : "tarot:\/\/card\/major\/1",
+          "imageURI" : "tarot:\/\/card\/major\/1",
           "name" : "The Magician"
         },
         {
-          "image" : "tarot:\/\/card\/major\/2",
+          "imageURI" : "tarot:\/\/card\/major\/2",
           "name" : "The High Priestess"
         },
         {
-          "image" : "tarot:\/\/card\/major\/3",
+          "imageURI" : "tarot:\/\/card\/major\/3",
           "name" : "The Empress"
         },
         {
-          "image" : "tarot:\/\/card\/major\/4",
+          "imageURI" : "tarot:\/\/card\/major\/4",
           "name" : "The Emperor"
         },
         {
-          "image" : "tarot:\/\/card\/major\/5",
+          "imageURI" : "tarot:\/\/card\/major\/5",
           "name" : "The Hierophant"
         },
         {
-          "image" : "tarot:\/\/card\/major\/6",
+          "imageURI" : "tarot:\/\/card\/major\/6",
           "name" : "The Lovers"
         },
         {
-          "image" : "tarot:\/\/card\/major\/7",
+          "imageURI" : "tarot:\/\/card\/major\/7",
           "name" : "The Chariot"
         },
         {
-          "image" : "tarot:\/\/card\/major\/8",
+          "imageURI" : "tarot:\/\/card\/major\/8",
           "name" : "Strength"
         },
         {
-          "image" : "tarot:\/\/card\/major\/9",
+          "imageURI" : "tarot:\/\/card\/major\/9",
           "name" : "The Hermit"
         },
         {
-          "image" : "tarot:\/\/card\/major\/10",
+          "imageURI" : "tarot:\/\/card\/major\/10",
           "name" : "Wheel of Fortune"
         },
         {
-          "image" : "tarot:\/\/card\/major\/11",
+          "imageURI" : "tarot:\/\/card\/major\/11",
           "name" : "Justice"
         },
         {
-          "image" : "tarot:\/\/card\/major\/12",
+          "imageURI" : "tarot:\/\/card\/major\/12",
           "name" : "The Hanged Man"
         },
         {
-          "image" : "tarot:\/\/card\/major\/13",
+          "imageURI" : "tarot:\/\/card\/major\/13",
           "name" : "Death"
         },
         {
-          "image" : "tarot:\/\/card\/major\/14",
+          "imageURI" : "tarot:\/\/card\/major\/14",
           "name" : "Temperance"
         },
         {
-          "image" : "tarot:\/\/card\/major\/15",
+          "imageURI" : "tarot:\/\/card\/major\/15",
           "name" : "The Devil"
         },
         {
-          "image" : "tarot:\/\/card\/major\/16",
+          "imageURI" : "tarot:\/\/card\/major\/16",
           "name" : "The Tower"
         },
         {
-          "image" : "tarot:\/\/card\/major\/17",
+          "imageURI" : "tarot:\/\/card\/major\/17",
           "name" : "The Star"
         },
         {
-          "image" : "tarot:\/\/card\/major\/18",
+          "imageURI" : "tarot:\/\/card\/major\/18",
           "name" : "The Moon"
         },
         {
-          "image" : "tarot:\/\/card\/major\/19",
+          "imageURI" : "tarot:\/\/card\/major\/19",
           "name" : "The Sun"
         },
         {
-          "image" : "tarot:\/\/card\/major\/20",
+          "imageURI" : "tarot:\/\/card\/major\/20",
           "name" : "Judgement"
         },
         {
-          "image" : "tarot:\/\/card\/major\/21",
+          "imageURI" : "tarot:\/\/card\/major\/21",
           "name" : "The World"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/1",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/1",
           "name" : "Ace of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/2",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/2",
           "name" : "Two of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/3",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/3",
           "name" : "Three of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/4",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/4",
           "name" : "Four of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/5",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/5",
           "name" : "Five of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/6",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/6",
           "name" : "Six of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/7",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/7",
           "name" : "Seven of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/8",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/8",
           "name" : "Eight of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/9",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/9",
           "name" : "Nine of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/10",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/10",
           "name" : "Ten of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/11",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/11",
           "name" : "Page of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/12",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/12",
           "name" : "Knight of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/13",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/13",
           "name" : "Queen of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/wands\/14",
+          "imageURI" : "tarot:\/\/card\/minor\/wands\/14",
           "name" : "King of Wands"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/1",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/1",
           "name" : "Ace of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/2",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/2",
           "name" : "Two of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/3",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/3",
           "name" : "Three of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/4",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/4",
           "name" : "Four of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/5",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/5",
           "name" : "Five of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/6",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/6",
           "name" : "Six of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/7",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/7",
           "name" : "Seven of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/8",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/8",
           "name" : "Eight of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/9",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/9",
           "name" : "Nine of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/10",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/10",
           "name" : "Ten of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/11",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/11",
           "name" : "Page of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/12",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/12",
           "name" : "Knight of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/13",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/13",
           "name" : "Queen of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/14",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/14",
           "name" : "King of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/1",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/1",
           "name" : "Ace of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/2",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/2",
           "name" : "Two of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/3",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/3",
           "name" : "Three of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/4",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/4",
           "name" : "Four of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/5",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/5",
           "name" : "Five of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/6",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/6",
           "name" : "Six of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/7",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/7",
           "name" : "Seven of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/8",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/8",
           "name" : "Eight of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/9",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/9",
           "name" : "Nine of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/10",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/10",
           "name" : "Ten of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/11",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/11",
           "name" : "Page of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/12",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/12",
           "name" : "Knight of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/13",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/13",
           "name" : "Queen of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/14",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/14",
           "name" : "King of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/1",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/1",
           "name" : "Ace of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/2",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/2",
           "name" : "Two of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/3",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/3",
           "name" : "Three of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/4",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/4",
           "name" : "Four of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/5",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/5",
           "name" : "Five of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/6",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/6",
           "name" : "Six of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/7",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/7",
           "name" : "Seven of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/8",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/8",
           "name" : "Eight of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/9",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/9",
           "name" : "Nine of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/10",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/10",
           "name" : "Ten of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/11",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/11",
           "name" : "Page of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/12",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/12",
           "name" : "Knight of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/13",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/13",
           "name" : "Queen of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/14",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/14",
           "name" : "King of Cups"
         }
       ]
@@ -356,23 +356,23 @@ struct TarotServerHandlerSnapshotTests { // swiftlint:disable:this type_body_len
       #"""
       [
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/2",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/2",
           "name" : "Two of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/pentacles\/12",
+          "imageURI" : "tarot:\/\/card\/minor\/pentacles\/12",
           "name" : "Knight of Pentacles"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/cups\/1",
+          "imageURI" : "tarot:\/\/card\/minor\/cups\/1",
           "name" : "Ace of Cups"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/9",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/9",
           "name" : "Nine of Swords"
         },
         {
-          "image" : "tarot:\/\/card\/minor\/swords\/7",
+          "imageURI" : "tarot:\/\/card\/minor\/swords\/7",
           "name" : "Seven of Swords"
         }
       ]
