@@ -6,9 +6,9 @@ A Model Context Protocol (MCP) server that provides tarot card reading functiona
 
 LLMs are notoriously bad at randomness, similar to humans. This MCP server provides more reliable random number generation for tarot readings.
 
-- **Single Card Draw**: Draw a random tarot card for quick insights
-- **Multi-Card Readings**: Draw multiple cards (1-78) for more detailed readings
+- **Flexible Card Drawing**: Draw anywhere from 1 to 78 tarot cards in a single request
 - **Full Deck Access**: View all 78 cards in the traditional tarot deck
+- **Card Images**: Fetch base64-encoded images for tarot cards
 - **Deterministic Testing**: Uses seeded random number generation for consistent testing
 - **Comprehensive Validation**: Input validation with proper error handling
 
@@ -74,19 +74,14 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## Available Tools
 
-### `draw_single_card`
-Draws a single random tarot card.
+### `draw_cards`
+Draws one or more tarot cards for readings.
+
+**Parameters:**
+- `count` (optional): Number of cards to draw (1-78, default: 1)
 
 **Example usage in Claude:**
 > "Draw me a tarot card"
-
-### `draw_multiple_cards`
-Draws multiple tarot cards for a reading.
-
-**Parameters:**
-- `count` (optional): Number of cards to draw (1-78, default: 3)
-
-**Example usage in Claude:**
 > "Draw me 5 tarot cards for a reading"
 
 ### `get_full_deck`
@@ -94,6 +89,15 @@ Returns all 78 cards in the tarot deck.
 
 **Example usage in Claude:**
 > "Show me the complete tarot deck"
+
+### `fetch_images`
+Fetches base64-encoded images for tarot card URIs.
+
+**Parameters:**
+- `uris`: Array of tarot card URIs to fetch images for
+
+**Example usage in Claude:**
+> "Show me the image for The Fool card"
 
 ## Development
 
@@ -184,16 +188,23 @@ The project is structured as:
 
 ## Card Format
 
-Cards are returned in a simple, readable format:
+Cards are returned as JSON objects with card details:
 
-```
-You drew:
-- The Fool
-
-You drew 3 cards:
-- The Magician
-- Two of Cups
-- King of Swords
+```json
+[
+  {
+    "name": "The Fool",
+    "imageURI": "tarot://card/major/0"
+  },
+  {
+    "name": "Two of Cups",
+    "imageURI": "tarot://card/minor/cups/2"
+  },
+  {
+    "name": "King of Swords",
+    "imageURI": "tarot://card/minor/swords/14"
+  }
+]
 ```
 
 ## License
