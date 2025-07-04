@@ -20,16 +20,16 @@ async function main(): Promise<void> {
     
     console.log('Server created, starting run...');
     await server.run();
+    
+    console.log('Server is now running and listening for MCP requests...');
   } catch (error) {
     console.error('Failed to start Tarot MCP Server:', error);
     process.exit(1);
   }
 }
 
-// Only run if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch((error) => {
-    console.error('Unhandled error:', error);
-    process.exit(1);
-  });
-} 
+// Always run the main function when this file is executed
+main().catch((error) => {
+  console.error('Unhandled error:', error);
+  process.exit(1);
+}); 

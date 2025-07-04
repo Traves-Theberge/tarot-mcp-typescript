@@ -4,7 +4,7 @@ exports[`MCP Tool Handler Tests draw_cards tool produces deterministic results f
 "[
   {
     "name": "Page of Wands",
-    "imageURI": "tarot://card/minor/wands/11"
+    "uri": "tarot://card/minor/wands/page"
   }
 ]"
 `;
@@ -13,315 +13,315 @@ exports[`MCP Tool Handler Tests get_full_deck tool produces deterministic result
 "[
   {
     "name": "The Fool",
-    "imageURI": "tarot://card/major/0"
+    "uri": "tarot://card/major/0"
   },
   {
     "name": "The Magician",
-    "imageURI": "tarot://card/major/1"
+    "uri": "tarot://card/major/1"
   },
   {
     "name": "The High Priestess",
-    "imageURI": "tarot://card/major/2"
+    "uri": "tarot://card/major/2"
   },
   {
     "name": "The Empress",
-    "imageURI": "tarot://card/major/3"
+    "uri": "tarot://card/major/3"
   },
   {
     "name": "The Emperor",
-    "imageURI": "tarot://card/major/4"
+    "uri": "tarot://card/major/4"
   },
   {
     "name": "The Hierophant",
-    "imageURI": "tarot://card/major/5"
+    "uri": "tarot://card/major/5"
   },
   {
     "name": "The Lovers",
-    "imageURI": "tarot://card/major/6"
+    "uri": "tarot://card/major/6"
   },
   {
     "name": "The Chariot",
-    "imageURI": "tarot://card/major/7"
+    "uri": "tarot://card/major/7"
   },
   {
     "name": "Strength",
-    "imageURI": "tarot://card/major/8"
+    "uri": "tarot://card/major/8"
   },
   {
     "name": "The Hermit",
-    "imageURI": "tarot://card/major/9"
+    "uri": "tarot://card/major/9"
   },
   {
     "name": "Wheel of Fortune",
-    "imageURI": "tarot://card/major/10"
+    "uri": "tarot://card/major/10"
   },
   {
     "name": "Justice",
-    "imageURI": "tarot://card/major/11"
+    "uri": "tarot://card/major/11"
   },
   {
     "name": "The Hanged Man",
-    "imageURI": "tarot://card/major/12"
+    "uri": "tarot://card/major/12"
   },
   {
     "name": "Death",
-    "imageURI": "tarot://card/major/13"
+    "uri": "tarot://card/major/13"
   },
   {
     "name": "Temperance",
-    "imageURI": "tarot://card/major/14"
+    "uri": "tarot://card/major/14"
   },
   {
     "name": "The Devil",
-    "imageURI": "tarot://card/major/15"
+    "uri": "tarot://card/major/15"
   },
   {
     "name": "The Tower",
-    "imageURI": "tarot://card/major/16"
+    "uri": "tarot://card/major/16"
   },
   {
     "name": "The Star",
-    "imageURI": "tarot://card/major/17"
+    "uri": "tarot://card/major/17"
   },
   {
     "name": "The Moon",
-    "imageURI": "tarot://card/major/18"
+    "uri": "tarot://card/major/18"
   },
   {
     "name": "The Sun",
-    "imageURI": "tarot://card/major/19"
+    "uri": "tarot://card/major/19"
   },
   {
     "name": "Judgement",
-    "imageURI": "tarot://card/major/20"
+    "uri": "tarot://card/major/20"
   },
   {
     "name": "The World",
-    "imageURI": "tarot://card/major/21"
+    "uri": "tarot://card/major/21"
   },
   {
     "name": "Ace of Wands",
-    "imageURI": "tarot://card/minor/wands/1"
+    "uri": "tarot://card/minor/wands/ace"
   },
   {
     "name": "Two of Wands",
-    "imageURI": "tarot://card/minor/wands/2"
+    "uri": "tarot://card/minor/wands/2"
   },
   {
     "name": "Three of Wands",
-    "imageURI": "tarot://card/minor/wands/3"
+    "uri": "tarot://card/minor/wands/3"
   },
   {
     "name": "Four of Wands",
-    "imageURI": "tarot://card/minor/wands/4"
+    "uri": "tarot://card/minor/wands/4"
   },
   {
     "name": "Five of Wands",
-    "imageURI": "tarot://card/minor/wands/5"
+    "uri": "tarot://card/minor/wands/5"
   },
   {
     "name": "Six of Wands",
-    "imageURI": "tarot://card/minor/wands/6"
+    "uri": "tarot://card/minor/wands/6"
   },
   {
     "name": "Seven of Wands",
-    "imageURI": "tarot://card/minor/wands/7"
+    "uri": "tarot://card/minor/wands/7"
   },
   {
     "name": "Eight of Wands",
-    "imageURI": "tarot://card/minor/wands/8"
+    "uri": "tarot://card/minor/wands/8"
   },
   {
     "name": "Nine of Wands",
-    "imageURI": "tarot://card/minor/wands/9"
+    "uri": "tarot://card/minor/wands/9"
   },
   {
     "name": "Ten of Wands",
-    "imageURI": "tarot://card/minor/wands/10"
+    "uri": "tarot://card/minor/wands/10"
   },
   {
     "name": "Page of Wands",
-    "imageURI": "tarot://card/minor/wands/11"
+    "uri": "tarot://card/minor/wands/page"
   },
   {
     "name": "Knight of Wands",
-    "imageURI": "tarot://card/minor/wands/12"
+    "uri": "tarot://card/minor/wands/knight"
   },
   {
     "name": "Queen of Wands",
-    "imageURI": "tarot://card/minor/wands/13"
+    "uri": "tarot://card/minor/wands/queen"
   },
   {
     "name": "King of Wands",
-    "imageURI": "tarot://card/minor/wands/14"
+    "uri": "tarot://card/minor/wands/king"
   },
   {
     "name": "Ace of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/1"
+    "uri": "tarot://card/minor/pentacles/ace"
   },
   {
     "name": "Two of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/2"
+    "uri": "tarot://card/minor/pentacles/2"
   },
   {
     "name": "Three of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/3"
+    "uri": "tarot://card/minor/pentacles/3"
   },
   {
     "name": "Four of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/4"
+    "uri": "tarot://card/minor/pentacles/4"
   },
   {
     "name": "Five of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/5"
+    "uri": "tarot://card/minor/pentacles/5"
   },
   {
     "name": "Six of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/6"
+    "uri": "tarot://card/minor/pentacles/6"
   },
   {
     "name": "Seven of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/7"
+    "uri": "tarot://card/minor/pentacles/7"
   },
   {
     "name": "Eight of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/8"
+    "uri": "tarot://card/minor/pentacles/8"
   },
   {
     "name": "Nine of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/9"
+    "uri": "tarot://card/minor/pentacles/9"
   },
   {
     "name": "Ten of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/10"
+    "uri": "tarot://card/minor/pentacles/10"
   },
   {
     "name": "Page of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/11"
+    "uri": "tarot://card/minor/pentacles/page"
   },
   {
     "name": "Knight of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/12"
+    "uri": "tarot://card/minor/pentacles/knight"
   },
   {
     "name": "Queen of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/13"
+    "uri": "tarot://card/minor/pentacles/queen"
   },
   {
     "name": "King of Pentacles",
-    "imageURI": "tarot://card/minor/pentacles/14"
+    "uri": "tarot://card/minor/pentacles/king"
   },
   {
     "name": "Ace of Swords",
-    "imageURI": "tarot://card/minor/swords/1"
+    "uri": "tarot://card/minor/swords/ace"
   },
   {
     "name": "Two of Swords",
-    "imageURI": "tarot://card/minor/swords/2"
+    "uri": "tarot://card/minor/swords/2"
   },
   {
     "name": "Three of Swords",
-    "imageURI": "tarot://card/minor/swords/3"
+    "uri": "tarot://card/minor/swords/3"
   },
   {
     "name": "Four of Swords",
-    "imageURI": "tarot://card/minor/swords/4"
+    "uri": "tarot://card/minor/swords/4"
   },
   {
     "name": "Five of Swords",
-    "imageURI": "tarot://card/minor/swords/5"
+    "uri": "tarot://card/minor/swords/5"
   },
   {
     "name": "Six of Swords",
-    "imageURI": "tarot://card/minor/swords/6"
+    "uri": "tarot://card/minor/swords/6"
   },
   {
     "name": "Seven of Swords",
-    "imageURI": "tarot://card/minor/swords/7"
+    "uri": "tarot://card/minor/swords/7"
   },
   {
     "name": "Eight of Swords",
-    "imageURI": "tarot://card/minor/swords/8"
+    "uri": "tarot://card/minor/swords/8"
   },
   {
     "name": "Nine of Swords",
-    "imageURI": "tarot://card/minor/swords/9"
+    "uri": "tarot://card/minor/swords/9"
   },
   {
     "name": "Ten of Swords",
-    "imageURI": "tarot://card/minor/swords/10"
+    "uri": "tarot://card/minor/swords/10"
   },
   {
     "name": "Page of Swords",
-    "imageURI": "tarot://card/minor/swords/11"
+    "uri": "tarot://card/minor/swords/page"
   },
   {
     "name": "Knight of Swords",
-    "imageURI": "tarot://card/minor/swords/12"
+    "uri": "tarot://card/minor/swords/knight"
   },
   {
     "name": "Queen of Swords",
-    "imageURI": "tarot://card/minor/swords/13"
+    "uri": "tarot://card/minor/swords/queen"
   },
   {
     "name": "King of Swords",
-    "imageURI": "tarot://card/minor/swords/14"
+    "uri": "tarot://card/minor/swords/king"
   },
   {
     "name": "Ace of Cups",
-    "imageURI": "tarot://card/minor/cups/1"
+    "uri": "tarot://card/minor/cups/ace"
   },
   {
     "name": "Two of Cups",
-    "imageURI": "tarot://card/minor/cups/2"
+    "uri": "tarot://card/minor/cups/2"
   },
   {
     "name": "Three of Cups",
-    "imageURI": "tarot://card/minor/cups/3"
+    "uri": "tarot://card/minor/cups/3"
   },
   {
     "name": "Four of Cups",
-    "imageURI": "tarot://card/minor/cups/4"
+    "uri": "tarot://card/minor/cups/4"
   },
   {
     "name": "Five of Cups",
-    "imageURI": "tarot://card/minor/cups/5"
+    "uri": "tarot://card/minor/cups/5"
   },
   {
     "name": "Six of Cups",
-    "imageURI": "tarot://card/minor/cups/6"
+    "uri": "tarot://card/minor/cups/6"
   },
   {
     "name": "Seven of Cups",
-    "imageURI": "tarot://card/minor/cups/7"
+    "uri": "tarot://card/minor/cups/7"
   },
   {
     "name": "Eight of Cups",
-    "imageURI": "tarot://card/minor/cups/8"
+    "uri": "tarot://card/minor/cups/8"
   },
   {
     "name": "Nine of Cups",
-    "imageURI": "tarot://card/minor/cups/9"
+    "uri": "tarot://card/minor/cups/9"
   },
   {
     "name": "Ten of Cups",
-    "imageURI": "tarot://card/minor/cups/10"
+    "uri": "tarot://card/minor/cups/10"
   },
   {
     "name": "Page of Cups",
-    "imageURI": "tarot://card/minor/cups/11"
+    "uri": "tarot://card/minor/cups/page"
   },
   {
     "name": "Knight of Cups",
-    "imageURI": "tarot://card/minor/cups/12"
+    "uri": "tarot://card/minor/cups/knight"
   },
   {
     "name": "Queen of Cups",
-    "imageURI": "tarot://card/minor/cups/13"
+    "uri": "tarot://card/minor/cups/queen"
   },
   {
     "name": "King of Cups",
-    "imageURI": "tarot://card/minor/cups/14"
+    "uri": "tarot://card/minor/cups/king"
   }
 ]"
 `;

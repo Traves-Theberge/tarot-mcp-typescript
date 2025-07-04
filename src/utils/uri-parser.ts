@@ -98,9 +98,25 @@ function parseMinorArcanaURI(pathParts: string[]): TarotCard | null {
   }
 
   // Map string values to CardValue enum
-  const cardValue = Object.values(CardValue).find(v => v === valueStr);
-  if (!cardValue) {
-    return null;
+  let cardValue: CardValue;
+  
+  if (valueStr === 'ace') {
+    cardValue = CardValue.Ace;
+  } else if (valueStr === 'page') {
+    cardValue = CardValue.Page;
+  } else if (valueStr === 'knight') {
+    cardValue = CardValue.Knight;
+  } else if (valueStr === 'queen') {
+    cardValue = CardValue.Queen;
+  } else if (valueStr === 'king') {
+    cardValue = CardValue.King;
+  } else {
+    // Try to parse as number
+    const numValue = parseInt(valueStr, 10);
+    if (isNaN(numValue) || numValue < 1 || numValue > 14) {
+      return null;
+    }
+    cardValue = numValue as CardValue;
   }
 
   const arcana = { suit, value: cardValue };
@@ -116,9 +132,29 @@ function parseMinorArcanaURI(pathParts: string[]): TarotCard | null {
     type: 'minor',
     arcana,
     name: getCardName(tempCard),
-    uri: `tarot://card/minor/${suit}/${cardValue}`,
-    imagePath: `assets/images/minor_arcana_${suit}_${cardValue}.png`
+    uri: `tarot://card/minor/${suit}/${getCardValueString(cardValue)}`,
+    imagePath: `assets/images/minor_arcana_${suit}_${getCardValueString(cardValue)}.png`
   };
+}
+
+/**
+ * Convert CardValue enum to string representation for URIs
+ */
+function getCardValueString(value: CardValue): string {
+  switch (value) {
+    case CardValue.Ace:
+      return 'ace';
+    case CardValue.Page:
+      return 'page';
+    case CardValue.Knight:
+      return 'knight';
+    case CardValue.Queen:
+      return 'queen';
+    case CardValue.King:
+      return 'king';
+    default:
+      return value.toString();
+  }
 }
 
 /**
@@ -133,7 +169,7 @@ export function generateCardURI(card: TarotCard): string {
       return `tarot://card/major/${card.arcana}`;
     case 'minor':
       const minorArcana = card.arcana as { suit: Suit; value: CardValue };
-      return `tarot://card/minor/${minorArcana.suit.toLowerCase()}/${minorArcana.value}`;
+      return `tarot://card/minor/${minorArcana.suit.toLowerCase()}/${getCardValueString(minorArcana.value)}`;
     default:
       throw new Error(`Unknown card type: ${(card as any).type}`);
   }

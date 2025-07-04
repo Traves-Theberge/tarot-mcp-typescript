@@ -44,11 +44,13 @@ describe('Tarot Deck Tests', () => {
       // Check that all combinations of suits and values are present
       for (const suit of suits) {
         for (const value of values) {
-          const found = minorCards.some(card =>
-            card.type === 'minor' && 
-            card.arcana.suit === suit && 
-            card.arcana.value === value
-          );
+          const found = minorCards.some(card => {
+            if (card.type === 'minor') {
+              const arcana = card.arcana as { suit: Suit; value: CardValue };
+              return arcana.suit === suit && arcana.value === value;
+            }
+            return false;
+          });
           expect(found).toBe(true);
         }
       }
@@ -98,7 +100,7 @@ describe('Tarot Deck Tests', () => {
     test('drawCards with count larger than deck throws error', () => {
       const rng = new SeedablePseudoRNG(42);
       const deckService = new TarotDeckService(rng);
-      expect(() => deckService.drawCards(100)).toThrow('Invalid card count: 100. Count must be between 1 and 78.');
+      expect(() => deckService.drawCards(100)).toThrow('Invalid card count: 100. Must be between 1 and 78.');
     });
 
     test('drawCards with zero count throws error', () => {

@@ -3,8 +3,14 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { TarotCard, MajorArcana, Suit, CardValue } from '../core/index.js';
+
+// Get the project root directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const projectRoot = join(__dirname, '..', '..');
 
 /**
  * Error thrown when an image cannot be found or loaded
@@ -96,10 +102,10 @@ function getCardImageFileName(card: TarotCard): string {
 export function loadCardImageAsBase64(card: TarotCard): string {
   try {
     const fileName = getCardImageFileName(card);
-    const imagePath = join(process.cwd(), 'assets', 'images', fileName);
+    const imagePath = join(projectRoot, 'assets', 'images', fileName);
 
     if (!existsSync(imagePath)) {
-      throw new ImageLoadError(`Image file not found: ${fileName}`, getCardDisplayName(card));
+      throw new ImageLoadError(`Image file not found: ${fileName} at ${imagePath}`, getCardDisplayName(card));
     }
 
     const imageData = readFileSync(imagePath);

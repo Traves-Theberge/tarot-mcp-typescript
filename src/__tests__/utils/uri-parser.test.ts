@@ -2,61 +2,78 @@
  * Tests for URI parsing utilities
  */
 
-import { MajorArcana, Suit, CardValue } from '../../core/index.js';
+import { MajorArcana, Suit, CardValue, TarotCard } from '../../core/index.js';
 import { generateCardURI, parseCardURI } from '../../utils/uri-parser.js';
+import { createFullDeck } from '../../core/deck-factory.js';
 
 describe('URI Parser Tests', () => {
+  let fullDeck: readonly TarotCard[];
+
+  beforeAll(() => {
+    fullDeck = createFullDeck();
+  });
+
   describe('generateCardURI', () => {
     test('generates correct URI for major arcana cards', () => {
-      const foolCard = { type: 'major' as const, arcana: MajorArcana.Fool };
-      expect(generateCardURI(foolCard)).toBe('tarot://card/major/0');
-
-      const worldCard = { type: 'major' as const, arcana: MajorArcana.World };
-      expect(generateCardURI(worldCard)).toBe('tarot://card/major/21');
+      const foolCard = fullDeck.find(card => card.type === 'major' && card.arcana === MajorArcana.Fool);
+      const worldCard = fullDeck.find(card => card.type === 'major' && card.arcana === MajorArcana.World);
+      
+      expect(foolCard).toBeDefined();
+      expect(worldCard).toBeDefined();
+      expect(generateCardURI(foolCard!)).toBe('tarot://card/major/0');
+      expect(generateCardURI(worldCard!)).toBe('tarot://card/major/21');
     });
 
     test('generates correct URI for minor arcana cards', () => {
-      const aceOfCups = {
-        type: 'minor' as const,
-        arcana: { suit: Suit.Cups, value: CardValue.Ace }
-      };
-      expect(generateCardURI(aceOfCups)).toBe('tarot://card/minor/cups/1');
-
-      const kingOfSwords = {
-        type: 'minor' as const,
-        arcana: { suit: Suit.Swords, value: CardValue.King }
-      };
-      expect(generateCardURI(kingOfSwords)).toBe('tarot://card/minor/swords/14');
+      const aceOfCups = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as { suit: Suit; value: CardValue };
+          return arcana.suit === Suit.Cups && arcana.value === CardValue.Ace;
+        }
+        return false;
+      });
+      const kingOfSwords = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as { suit: Suit; value: CardValue };
+          return arcana.suit === Suit.Swords && arcana.value === CardValue.King;
+        }
+        return false;
+      });
+      
+      expect(aceOfCups).toBeDefined();
+      expect(kingOfSwords).toBeDefined();
+      expect(generateCardURI(aceOfCups!)).toBe('tarot://card/minor/cups/ace');
+      expect(generateCardURI(kingOfSwords!)).toBe('tarot://card/minor/swords/king');
     });
   });
 
   describe('parseCardURI', () => {
     test('parses major arcana URIs correctly', () => {
       const foolCard = parseCardURI('tarot://card/major/0');
-      expect(foolCard).toEqual({
-        type: 'major',
-        arcana: MajorArcana.Fool
-      });
+      expect(foolCard?.type).toBe('major');
+      expect(foolCard?.arcana).toBe(MajorArcana.Fool);
 
       const worldCard = parseCardURI('tarot://card/major/21');
-      expect(worldCard).toEqual({
-        type: 'major',
-        arcana: MajorArcana.World
-      });
+      expect(worldCard?.type).toBe('major');
+      expect(worldCard?.arcana).toBe(MajorArcana.World);
     });
 
     test('parses minor arcana URIs correctly', () => {
-      const aceOfCups = parseCardURI('tarot://card/minor/cups/1');
-      expect(aceOfCups).toEqual({
-        type: 'minor',
-        arcana: { suit: Suit.Cups, value: CardValue.Ace }
-      });
+      const aceOfCups = parseCardURI('tarot://card/minor/cups/ace');
+      expect(aceOfCups?.type).toBe('minor');
+      if (aceOfCups?.type === 'minor') {
+        const arcana = aceOfCups.arcana as { suit: Suit; value: CardValue };
+        expect(arcana.suit).toBe(Suit.Cups);
+        expect(arcana.value).toBe(CardValue.Ace);
+      }
 
-      const kingOfSwords = parseCardURI('tarot://card/minor/swords/14');
-      expect(kingOfSwords).toEqual({
-        type: 'minor',
-        arcana: { suit: Suit.Swords, value: CardValue.King }
-      });
+      const kingOfSwords = parseCardURI('tarot://card/minor/swords/king');
+      expect(kingOfSwords?.type).toBe('minor');
+      if (kingOfSwords?.type === 'minor') {
+        const arcana = kingOfSwords.arcana as { suit: Suit; value: CardValue };
+        expect(arcana.suit).toBe(Suit.Swords);
+        expect(arcana.value).toBe(CardValue.King);
+      }
     });
 
     test('returns null for invalid URIs', () => {
@@ -68,15 +85,25 @@ describe('URI Parser Tests', () => {
     });
 
     test('round-trip conversion works correctly', () => {
-      const originalCard = {
-        type: 'minor' as const,
-        arcana: { suit: Suit.Pentacles, value: CardValue.Queen }
-      };
+      const originalCard = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as { suit: Suit; value: CardValue };
+          return arcana.suit === Suit.Pentacles && arcana.value === CardValue.Queen;
+        }
+        return false;
+      });
       
-      const uri = generateCardURI(originalCard);
+      expect(originalCard).toBeDefined();
+      const uri = generateCardURI(originalCard!);
       const parsedCard = parseCardURI(uri);
       
-      expect(parsedCard).toEqual(originalCard);
+      expect(parsedCard?.type).toBe(originalCard!.type);
+      if (parsedCard?.type === 'minor' && originalCard!.type === 'minor') {
+        const originalArcana = originalCard!.arcana as { suit: Suit; value: CardValue };
+        const parsedArcana = parsedCard.arcana as { suit: Suit; value: CardValue };
+        expect(parsedArcana.suit).toBe(originalArcana.suit);
+        expect(parsedArcana.value).toBe(originalArcana.value);
+      }
     });
   });
 }); 

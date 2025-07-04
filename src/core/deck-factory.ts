@@ -43,7 +43,7 @@ export function createMinorArcanaCards(): readonly TarotCard[] {
 
   for (const suit of Object.values(Suit)) {
     for (const value of Object.values(CardValue)) {
-      if (typeof value === 'string') {
+      if (typeof value === 'number') {
         const arcana = { suit, value };
         const tempCard: TarotCard = {
           type: 'minor',
@@ -53,8 +53,11 @@ export function createMinorArcanaCards(): readonly TarotCard[] {
           imagePath: ''
         };
         const name = getCardName(tempCard);
-        const uri = `tarot://card/minor/${suit}/${value}`;
-        const imagePath = `assets/images/minor_arcana_${suit}_${value}.png`;
+        
+        // Generate URI with proper string representation
+        const valueStr = getCardValueString(value);
+        const uri = `tarot://card/minor/${suit}/${valueStr}`;
+        const imagePath = `assets/images/minor_arcana_${suit}_${valueStr}.png`;
         
         cards.push({
           type: 'minor',
@@ -68,6 +71,26 @@ export function createMinorArcanaCards(): readonly TarotCard[] {
   }
 
   return cards;
+}
+
+/**
+ * Convert CardValue enum to string representation for URIs and file paths
+ */
+function getCardValueString(value: CardValue): string {
+  switch (value) {
+    case CardValue.Ace:
+      return 'ace';
+    case CardValue.Page:
+      return 'page';
+    case CardValue.Knight:
+      return 'knight';
+    case CardValue.Queen:
+      return 'queen';
+    case CardValue.King:
+      return 'king';
+    default:
+      return value.toString();
+  }
 }
 
 /**

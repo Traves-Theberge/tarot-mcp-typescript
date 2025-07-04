@@ -12,20 +12,28 @@ export enum Suit {
  * Represents a value in the Minor Arcana (ace, 2-10, page, knight, queen, king)
  */
 export enum CardValue {
-  Ace = 'ace',
-  Two = '2',
-  Three = '3', 
-  Four = '4',
-  Five = '5',
-  Six = '6',
-  Seven = '7',
-  Eight = '8',
-  Nine = '9',
-  Ten = '10',
-  Page = 'page',
-  Knight = 'knight',
-  Queen = 'queen',
-  King = 'king'
+  Ace = 1,
+  Two = 2,
+  Three = 3, 
+  Four = 4,
+  Five = 5,
+  Six = 6,
+  Seven = 7,
+  Eight = 8,
+  Nine = 9,
+  Ten = 10,
+  Page = 11,
+  Knight = 12,
+  Queen = 13,
+  King = 14
+}
+
+/**
+ * Represents a Minor Arcana card with suit and value
+ */
+export interface MinorArcana {
+  suit: Suit;
+  value: CardValue;
 }
 
 /**
@@ -64,7 +72,7 @@ export interface TarotCard {
   readonly name: string;
   readonly uri: string;
   readonly imagePath: string;
-  readonly arcana: MajorArcana | { suit: Suit; value: CardValue };
+  readonly arcana: MajorArcana | MinorArcana;
 }
 
 /**

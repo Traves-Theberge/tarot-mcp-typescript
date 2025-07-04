@@ -18,7 +18,7 @@ describe('MCP Tool Handler Tests', () => {
       expect(result.isError).toBe(true);
       expect(result.content[0]?.type).toBe('text');
       if (result.content[0]?.type === 'text') {
-        expect(result.content[0].text).toContain('Invalid card count: 0. Count must be between 1 and 78.');
+        expect(result.content[0].text).toContain('Invalid card count: 0. Must be between 1 and 78.');
       }
     });
   });
@@ -39,7 +39,7 @@ describe('MCP Tool Handler Tests', () => {
         
         const card = jsonData[0];
         expect(typeof card.name).toBe('string');
-        expect(typeof card.imageURI).toBe('string');
+        expect(typeof card.uri).toBe('string');
       }
     });
 
@@ -76,7 +76,7 @@ describe('MCP Tool Handler Tests', () => {
         
         const card = jsonData[0];
         expect(card.name).toBe('Ten of Cups');
-        expect(card.imageURI).toBe('tarot://card/minor/cups/10');
+        expect(card.uri).toBe('tarot://card/minor/cups/10');
       }
     });
 
@@ -94,8 +94,8 @@ describe('MCP Tool Handler Tests', () => {
         // Verify each card has name and image
         for (const card of jsonData) {
           expect(typeof card.name).toBe('string');
-          expect(typeof card.imageURI).toBe('string');
-          expect(card.imageURI).toMatch(/^tarot:\/\/card\//);
+          expect(typeof card.uri).toBe('string');
+          expect(card.uri).toMatch(/^tarot:\/\/card\//);
         }
       }
     });
@@ -139,8 +139,8 @@ describe('MCP Tool Handler Tests', () => {
         // Verify each card has name and image
         for (const card of jsonData) {
           expect(typeof card.name).toBe('string');
-          expect(typeof card.imageURI).toBe('string');
-          expect(card.imageURI).toMatch(/^tarot:\/\/card\//);
+          expect(typeof card.uri).toBe('string');
+          expect(card.uri).toMatch(/^tarot:\/\/card\//);
         }
       }
     });
@@ -160,13 +160,13 @@ describe('MCP Tool Handler Tests', () => {
   });
 
   describe('fetch_images tool', () => {
-    test.skip('returns images for valid URIs', async () => {
-      // Skipped because image files are not available in test environment
+    test('returns images for valid URIs', async () => {
+      // Test with actual image files that exist in assets/images/
       const deckService = new TarotDeckService(new SeedablePseudoRNG(42));
       const handler = new TarotMCPToolHandler(deckService);
       const uris = [
         'tarot://card/major/0',
-        'tarot://card/minor/cups/1'
+        'tarot://card/minor/cups/ace'
       ];
       
       const result = await handler.handleToolCall('fetch_images', { uris });
@@ -178,6 +178,9 @@ describe('MCP Tool Handler Tests', () => {
         if (content.type === 'image') {
           expect(typeof content.data).toBe('string');
           expect(content.mimeType).toBe('image/png');
+          // Verify it's valid base64
+          expect(content.data.length).toBeGreaterThan(0);
+          expect(() => Buffer.from(content.data, 'base64')).not.toThrow();
         }
       }
     });

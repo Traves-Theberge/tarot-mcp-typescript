@@ -5,8 +5,15 @@
 
 import { MajorArcana, Suit, CardValue, MinorArcana, TarotCard } from '../../core/index.js';
 import { getCardName } from '../../core/card-names.js';
+import { createFullDeck } from '../../core/deck-factory.js';
 
 describe('Tarot Card Tests', () => {
+  let fullDeck: readonly TarotCard[];
+
+  beforeAll(() => {
+    fullDeck = createFullDeck();
+  });
+
   describe('Major Arcana', () => {
     test('has exactly 22 cards', () => {
       const majorArcanaValues = Object.values(MajorArcana).filter(v => typeof v === 'number');
@@ -14,11 +21,13 @@ describe('Tarot Card Tests', () => {
     });
 
     test('card names are correct', () => {
-      const foolCard: TarotCard = { type: 'major', arcana: MajorArcana.Fool };
-      expect(getCardName(foolCard)).toBe('The Fool');
-
-      const magicianCard: TarotCard = { type: 'major', arcana: MajorArcana.Magician };
-      expect(getCardName(magicianCard)).toBe('The Magician');
+      const foolCard = fullDeck.find(card => card.type === 'major' && card.arcana === MajorArcana.Fool);
+      const magicianCard = fullDeck.find(card => card.type === 'major' && card.arcana === MajorArcana.Magician);
+      
+      expect(foolCard).toBeDefined();
+      expect(magicianCard).toBeDefined();
+      expect(getCardName(foolCard!)).toBe('The Fool');
+      expect(getCardName(magicianCard!)).toBe('The Magician');
     });
   });
 
@@ -41,27 +50,47 @@ describe('Tarot Card Tests', () => {
     });
 
     test('card names are formatted correctly', () => {
-      const aceOfCups: MinorArcana = { suit: Suit.Cups, value: CardValue.Ace };
-      const aceOfCupsCard: TarotCard = { type: 'minor', arcana: aceOfCups };
-      expect(getCardName(aceOfCupsCard)).toBe('Ace of Cups');
-
-      const kingOfSwords: MinorArcana = { suit: Suit.Swords, value: CardValue.King };
-      const kingOfSwordsCard: TarotCard = { type: 'minor', arcana: kingOfSwords };
-      expect(getCardName(kingOfSwordsCard)).toBe('King of Swords');
+      const aceOfCups = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as MinorArcana;
+          return arcana.suit === Suit.Cups && arcana.value === CardValue.Ace;
+        }
+        return false;
+      });
+      const kingOfSwords = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as MinorArcana;
+          return arcana.suit === Suit.Swords && arcana.value === CardValue.King;
+        }
+        return false;
+      });
+      
+      expect(aceOfCups).toBeDefined();
+      expect(kingOfSwords).toBeDefined();
+      expect(getCardName(aceOfCups!)).toBe('Ace of Cups');
+      expect(getCardName(kingOfSwords!)).toBe('King of Swords');
     });
 
     test('TarotCard minor arcana names are correct', () => {
-      const aceOfWands: TarotCard = {
-        type: 'minor',
-        arcana: { suit: Suit.Wands, value: CardValue.Ace }
-      };
-      expect(getCardName(aceOfWands)).toBe('Ace of Wands');
-
-      const queenOfPentacles: TarotCard = {
-        type: 'minor',
-        arcana: { suit: Suit.Pentacles, value: CardValue.Queen }
-      };
-      expect(getCardName(queenOfPentacles)).toBe('Queen of Pentacles');
+      const aceOfWands = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as MinorArcana;
+          return arcana.suit === Suit.Wands && arcana.value === CardValue.Ace;
+        }
+        return false;
+      });
+      const queenOfPentacles = fullDeck.find(card => {
+        if (card.type === 'minor') {
+          const arcana = card.arcana as MinorArcana;
+          return arcana.suit === Suit.Pentacles && arcana.value === CardValue.Queen;
+        }
+        return false;
+      });
+      
+      expect(aceOfWands).toBeDefined();
+      expect(queenOfPentacles).toBeDefined();
+      expect(getCardName(aceOfWands!)).toBe('Ace of Wands');
+      expect(getCardName(queenOfPentacles!)).toBe('Queen of Pentacles');
     });
   });
 }); 
