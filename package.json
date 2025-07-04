@@ -1,0 +1,70 @@
+{
+  "name": "tarot-mcp-typescript",
+  "version": "1.0.0",
+  "description": "A TypeScript Model Context Protocol (MCP) server that provides tarot card reading functionality",
+  "main": "dist/src/index.js",
+  "bin": {
+    "tarot-mcp-typescript": "dist/src/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "node dist/src/index.js",
+    "dev": "tsx src/index.ts",
+    "clean": "rimraf dist coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "tarot",
+    "cards",
+    "ai",
+    "assistant",
+    "divination"
+  ],
+  "author": "Tarot MCP Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "rimraf": "^5.0.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Traves-Theberge/swift-tarot-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Traves-Theberge/swift-tarot-mcp/issues"
+  },
+  "homepage": "https://github.com/Traves-Theberge/swift-tarot-mcp#readme"
+}

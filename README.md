@@ -1,212 +1,230 @@
-# Swift Tarot MCP Server
+# Tarot MCP TypeScript Server
 
-A Model Context Protocol (MCP) server that provides tarot card reading functionality. This server allows AI assistants to draw tarot cards, perform multi-card readings, and access the complete tarot deck.
+A **TypeScript** implementation of a **Model Context Protocol (MCP)** server that provides tarot card reading functionality for AI assistants like Claude in Cursor.
 
-## Features
+## 🎯 Overview
 
-LLMs are notoriously bad at randomness, similar to humans. This MCP server provides more reliable random number generation for tarot readings.
+This MCP server offers three powerful tools for tarot card interactions:
 
-- **Flexible Card Drawing**: Draw anywhere from 1 to 78 tarot cards in a single request
-- **Full Deck Access**: View all 78 cards in the traditional tarot deck
-- **Card Images**: Fetch base64-encoded images for tarot cards
-- **Deterministic Testing**: Uses seeded random number generation for consistent testing
-- **Comprehensive Validation**: Input validation with proper error handling
+- **`draw_cards`** - Draw one or more tarot cards with optional seeded randomization
+- **`get_full_deck`** - Get information about all 78 tarot cards in the deck  
+- **`fetch_images`** - Retrieve base64-encoded images for specific tarot cards
 
-## Installation
+## 🏗️ Architecture
 
-### Prerequisites
+### Clean TypeScript Design
 
-- Swift 5.9 or later
-- macOS 13.0 or later
-- [Just](https://github.com/casey/just) command runner (optional but recommended)
-
-### Install Just (Optional)
-
-```bash
-brew install just
+```
+src/
+├── core/                 # Domain models and business logic
+│   ├── tarot-card.ts    # Card types, enums, and interfaces
+│   ├── card-names.ts    # Card naming utilities
+│   ├── deck-factory.ts  # Deck creation and management
+│   └── index.ts         # Core module exports
+├── server/              # MCP server implementation
+│   ├── mcp-server.ts    # Main MCP server class
+│   ├── deck-service.ts  # Deck management service
+│   ├── mcp-tool-handler.ts # Tool request handlers
+│   └── index.ts         # Server module exports
+├── utils/               # Shared utilities
+│   ├── random-number-generator.ts # RNG abstraction
+│   ├── array-shuffle.ts # Fisher-Yates shuffling
+│   ├── image-loader.ts  # Image processing utilities
+│   ├── uri-parser.ts    # URI parsing and generation
+│   └── index.ts         # Utilities module exports
+└── index.ts             # Main entry point
 ```
 
-### Build and Install
+### Key Features
 
-1. Clone the repository:
+- **78 Complete Tarot Cards** - All Major Arcana (0-21) and Minor Arcana (4 suits × 14 values)
+- **Deterministic Testing** - Seeded RNG for reproducible results in tests
+- **Production Ready** - System RNG for real-world usage
+- **Type Safety** - Full TypeScript with strict type checking
+- **Clean Architecture** - Separation of concerns with dependency injection
+- **Comprehensive Testing** - 97+ test cases with >80% coverage
+- **Modern Tooling** - ESLint, Prettier, Jest integration
+
+## 🚀 Quick Start
+
+### Installation
+
 ```bash
+# Clone and install
 git clone <repository-url>
-cd swift-tarot-MCP
+cd tarot-mcp-typescript
+npm install
+
+# Build the project
+npm run build
+
+# Run tests
+npm test
+
+# Start the server
+npm start
 ```
 
-2. Build and install the server:
-```bash
-just install
-```
+### Cursor Integration
 
-This will build the release version and install it to `/usr/local/bin/swift-tarot-MCP`.
-
-Alternatively, you can build manually:
-```bash
-swift build -c release
-sudo cp .build/release/swift-tarot-MCP /usr/local/bin/
-```
-
-## Claude Desktop Configuration
-
-To use this MCP server with Claude Desktop, add the following to your Claude Desktop configuration file:
-
-### macOS Configuration
-
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+Add to your Cursor MCP configuration (`~/.cursor/mcp.json`):
 
 ```json
 {
   "mcpServers": {
-    "tarot": {
-      "command": "swift-tarot-MCP",
-      "args": []
+    "tarot-mcp-typescript": {
+      "command": "node",
+      "args": ["C:/path/to/tarot-mcp-typescript/dist/src/index.js"]
     }
   }
 }
 ```
 
-### After Configuration
+## 🎴 Tarot Card Structure
 
-1. Restart Claude Desktop
-2. The tarot tools should now be available in your conversations
-3. You can ask Claude to draw tarot cards, perform readings, or show the full deck
+### Major Arcana (22 cards)
+```typescript
+enum MajorArcana {
+  Fool = 0, Magician = 1, HighPriestess = 2, Empress = 3,
+  Emperor = 4, Hierophant = 5, Lovers = 6, Chariot = 7,
+  Strength = 8, Hermit = 9, WheelOfFortune = 10, Justice = 11,
+  HangedMan = 12, Death = 13, Temperance = 14, Devil = 15,
+  Tower = 16, Star = 17, Moon = 18, Sun = 19,
+  Judgement = 20, World = 21
+}
+```
 
-## Available Tools
+### Minor Arcana (56 cards)
+```typescript
+enum Suit { Wands = 'wands', Pentacles = 'pentacles', Swords = 'swords', Cups = 'cups' }
+enum CardValue { Ace = 'ace', Two = '2', ..., King = 'king' }
+```
 
-### `draw_cards`
-Draws one or more tarot cards for readings.
+## 🛠️ Available Scripts
+
+```bash
+npm run build         # Compile TypeScript to JavaScript
+npm run build:watch   # Watch mode compilation
+npm run start         # Start the MCP server
+npm run dev           # Development mode with tsx
+npm run test          # Run all tests
+npm run test:watch    # Watch mode testing
+npm run test:coverage # Generate coverage report
+npm run lint          # Run ESLint
+npm run lint:fix      # Fix ESLint issues
+npm run format        # Format code with Prettier
+npm run typecheck     # Type checking without emit
+npm run clean         # Clean build artifacts
+```
+
+## 🧪 Testing
+
+Comprehensive test suite with 97+ tests covering:
+
+- **Core Domain Logic** - Card creation, deck validation, naming
+- **Server Functionality** - MCP protocol compliance, tool handlers
+- **Utility Functions** - RNG, shuffling, URI parsing, image loading
+- **Error Handling** - Invalid inputs, edge cases, error responses
+- **Snapshot Testing** - API response format validation
+
+```bash
+# Run tests with coverage
+npm run test:coverage
+
+# Watch mode for development
+npm run test:watch
+```
+
+## 🎯 MCP Tools
+
+### 1. `draw_cards`
+Draw random tarot cards from the deck.
 
 **Parameters:**
-- `count` (optional): Number of cards to draw (1-78, default: 1)
+- `count` (number, 1-78): Number of cards to draw
 
-**Example usage in Claude:**
-> "Draw me a tarot card"
-> "Draw me 5 tarot cards for a reading"
+**Example:**
+```typescript
+// Draw 3 cards
+{ "name": "draw_cards", "arguments": { "count": 3 } }
+```
 
-### `get_full_deck`
-Returns all 78 cards in the tarot deck.
+### 2. `get_full_deck`
+Get information about all 78 cards in the tarot deck.
 
-**Example usage in Claude:**
-> "Show me the complete tarot deck"
+**Parameters:** None
 
-### `fetch_images`
-Fetches base64-encoded images for tarot card URIs.
+**Returns:** Array of all tarot cards with names and URIs
+
+### 3. `fetch_images`
+Get base64-encoded images for specific tarot cards.
 
 **Parameters:**
-- `uris`: Array of tarot card URIs to fetch images for
+- `uris` (string[]): Array of tarot card URIs
 
-**Example usage in Claude:**
-> "Show me the image for The Fool card"
-
-## Development
-
-### Available Commands
-
-If you have Just installed, you can use these commands:
-
-```bash
-# Build the project (debug by default)
-just build
-
-# Build for release
-just build release
-
-# Run tests
-just test
-
-# Run tests with verbose output
-just test --verbose
-
-# Lint the code
-just lint
-
-# Auto-fix linting issues
-just lint --fix
-
-# Run the server locally
-just run
-
-# Clean build artifacts
-just clean
-
-# Install to system PATH
-just install
-
-# Remove from system PATH
-just uninstall
-```
-
-### Manual Commands
-
-Without Just, you can use these Swift commands:
-
-```bash
-# Build debug
-swift build
-
-# Build release
-swift build -c release
-
-# Run tests
-swift test
-
-# Run linting
-swift package plugin --allow-writing-to-package-directory swiftlint
-```
-
-### Testing
-
-The project includes comprehensive tests covering:
-
-- Tarot card data structures and validation
-- Deck composition and card drawing
-- Server handler functionality
-- MCP protocol compliance
-- Deterministic behavior with seeded RNG
-
-Run tests with:
-```bash
-just test
-# or
-swift test
-```
-
-## Architecture
-
-The project is structured as:
-
-- **TarotMCPCore**: Core library containing tarot card logic and MCP server implementation
-- **TarotMCP**: Executable that runs the MCP server using stdio transport
-
-### Key Components
-
-- `TarotCard`: Enum representing major and minor arcana cards
-- `TarotDeck`: Static methods for card drawing and deck management
-- `TarotServer`: MCP server implementation
-- `TarotServerHandler`: Handles MCP tool calls and routing
-
-## Card Format
-
-Cards are returned as JSON objects with card details:
-
-```json
-[
-  {
-    "name": "The Fool",
-    "imageURI": "tarot://card/major/0"
-  },
-  {
-    "name": "Two of Cups",
-    "imageURI": "tarot://card/minor/cups/2"
-  },
-  {
-    "name": "King of Swords",
-    "imageURI": "tarot://card/minor/swords/14"
+**Example:**
+```typescript
+{
+  "name": "fetch_images",
+  "arguments": {
+    "uris": ["tarot://card/major/0", "tarot://card/minor/cups/ace"]
   }
-]
+}
 ```
 
-## License
+## 🎨 URI Format
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Tarot cards use a standardized URI format:
+
+- **Major Arcana:** `tarot://card/major/{number}` (0-21)
+- **Minor Arcana:** `tarot://card/minor/{suit}/{value}`
+
+**Examples:**
+- `tarot://card/major/0` - The Fool
+- `tarot://card/minor/cups/ace` - Ace of Cups
+- `tarot://card/minor/swords/king` - King of Swords
+
+## 🖼️ Images
+
+All 78 tarot card images are included in `assets/images/`:
+
+- **Major Arcana:** `major_arcana_{name}.png`
+- **Minor Arcana:** `minor_arcana_{suit}_{value}.png`
+
+Images are loaded as base64-encoded data URLs for easy integration.
+
+## 🔧 Development
+
+### Code Quality
+- **TypeScript** with strict type checking
+- **ESLint** with TypeScript-specific rules
+- **Prettier** for consistent formatting
+- **Jest** for testing with TypeScript support
+
+### Architecture Principles
+- **Clean Architecture** - Domain, application, and infrastructure layers
+- **Dependency Injection** - Testable and flexible design
+- **Immutable Data** - Readonly interfaces and functional patterns
+- **Error Handling** - Proper error types and MCP error responses
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🔗 Related
+
+- [Model Context Protocol](https://modelcontextprotocol.io/) - Official MCP documentation
+- [Cursor Editor](https://cursor.sh/) - AI-powered code editor with MCP support
+- [Original Swift Implementation](https://github.com/user/swift-tarot-mcp) - Swift version of this server
+
+---
+
+**Built with ❤️ and TypeScript for the AI-powered development community.** 

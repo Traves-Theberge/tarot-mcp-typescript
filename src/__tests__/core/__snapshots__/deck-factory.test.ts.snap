@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tarot Deck Tests Draw Cards drawCards with seeded RNG snapshot 1`] = `
+[
+  "Queen of Swords",
+  "The Lovers",
+  "Eight of Pentacles",
+  "The Hierophant",
+  "Ten of Pentacles",
+]
+`;
