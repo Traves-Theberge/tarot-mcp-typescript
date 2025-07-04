@@ -10,6 +10,8 @@ This MCP server offers three powerful tools for tarot card interactions:
 - **`get_full_deck`** - Get information about all 78 tarot cards in the deck  
 - **`fetch_images`** - Retrieve base64-encoded images for specific tarot cards
 
+Perfect for integrating tarot functionality into AI assistants, creative writing tools, or divination applications within Cursor IDE.
+
 ## 🏗️ Architecture
 
 ### Clean TypeScript Design
@@ -65,20 +67,155 @@ npm test
 npm start
 ```
 
-### Cursor Integration
+### 🎯 Cursor Integration
 
-Add to your Cursor MCP configuration (`~/.cursor/mcp.json`):
+#### Step 1: Configure MCP in Cursor
+
+Add to your Cursor MCP configuration file:
+
+**Windows:** `%APPDATA%\Cursor\User\globalStorage\cursor.mcp\mcp.json`
+**macOS:** `~/Library/Application Support/Cursor/User/globalStorage/cursor.mcp/mcp.json`
+**Linux:** `~/.config/Cursor/User/globalStorage/cursor.mcp/mcp.json`
 
 ```json
 {
   "mcpServers": {
     "tarot-mcp-typescript": {
       "command": "node",
-      "args": ["C:/path/to/tarot-mcp-typescript/dist/src/index.js"]
+      "args": ["C:/path/to/tarot-mcp-typescript/dist/src/index.js"],
+      "env": {}
     }
   }
 }
 ```
+
+#### Step 2: Restart Cursor
+
+After adding the configuration, restart Cursor for the MCP server to be loaded.
+
+#### Step 3: Verify Connection
+
+In Cursor's AI chat, you can verify the connection by asking:
+```
+"Can you draw a tarot card for me?"
+```
+
+The AI should be able to access the tarot tools and respond with card information.
+
+## 🎮 Using in Cursor
+
+### Example Interactions
+
+Once configured, you can interact with the tarot server through Cursor's AI assistant:
+
+#### Draw Random Cards
+```
+"Draw 3 tarot cards for a past, present, future reading"
+"Give me a single card for guidance today"
+"Draw 5 cards for a Celtic Cross spread"
+```
+
+#### Get Card Information
+```
+"Tell me about all the Major Arcana cards"
+"What are the court cards in the suit of Cups?"
+"Show me the full tarot deck"
+```
+
+#### Visual Card Reading
+```
+"Draw The Fool card and show me its image"
+"I want to see the Queen of Pentacles card"
+"Show me images for a 3-card spread"
+```
+
+### Development Workflow in Cursor
+
+The MCP server is perfect for:
+
+- **Creative Writing**: Generate tarot-inspired storylines and character development
+- **Game Development**: Integrate tarot mechanics into games
+- **Divination Apps**: Build tarot reading applications
+- **Educational Tools**: Learn about tarot symbolism and meanings
+- **API Development**: Use as a backend service for tarot functionality
+
+### Cursor-Specific Features
+
+- **Real-time Integration**: No need to switch between applications
+- **Visual Feedback**: Display card images directly in the chat
+- **Context Awareness**: AI can remember previous card draws in the conversation
+- **Code Generation**: Generate tarot-related code with actual card data
+- **Testing Support**: Use for generating test data in tarot applications
+
+### 🔧 Troubleshooting Cursor Integration
+
+#### Common Issues
+
+**MCP Server Not Found**
+- Ensure the path in `mcp.json` points to the compiled JavaScript file (`dist/src/index.js`)
+- Verify the project has been built with `npm run build`
+- Check that Node.js is in your system PATH
+
+**Connection Refused**
+- Make sure Cursor has been restarted after adding the MCP configuration
+- Verify the `mcp.json` file is in the correct location for your OS
+- Check that the file has valid JSON syntax
+
+**Tools Not Available**
+- Ask the AI explicitly: "What MCP tools do you have available?"
+- Try: "Can you use the draw_cards tool?"
+- Restart Cursor and try again
+
+#### Debug Mode
+
+To debug MCP connection issues, you can run the server manually:
+
+```bash
+# Run the server directly to see any errors
+node dist/src/index.js
+
+# Check if the build is working
+npm run build && npm start
+```
+
+#### Configuration Examples
+
+**Development Setup (with source watching):**
+```json
+{
+  "mcpServers": {
+    "tarot-mcp-dev": {
+      "command": "npm",
+      "args": ["run", "dev"],
+      "cwd": "C:/path/to/tarot-mcp-typescript"
+    }
+  }
+}
+```
+
+**Production Setup:**
+```json
+{
+  "mcpServers": {
+    "tarot-mcp": {
+      "command": "node",
+      "args": ["dist/src/index.js"],
+      "cwd": "C:/path/to/tarot-mcp-typescript",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
+```
+
+### 💡 Pro Tips for Cursor
+
+1. **Bookmark Common Requests**: Save frequently used tarot prompts as Cursor snippets
+2. **Use Context**: Reference previous card draws in follow-up questions
+3. **Combine with Code**: Ask for tarot-themed code examples or implementations
+4. **Image Integration**: Request card images for visual tarot readings
+5. **Batch Operations**: Draw multiple cards at once for complex spreads
 
 ## 🎴 Tarot Card Structure
 
